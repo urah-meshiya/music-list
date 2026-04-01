@@ -1,0 +1,64 @@
+@import "../../components/css/app.css";
+
+:root {
+  --main: hls(246, 80%, 90%);
+  --main-h: 246;
+  --main-s: 80%;
+  --main-l: 90%;
+}
+
+body {
+  font-family: 'Yomogi', sans-serif;
+  margin: 0; 
+
+  background-image: url("../img/bg.png");
+  background-repeat: no-repeat;
+  background-position: 0;
+  background-size: cover;
+
+  background-color: #F2F1E6;
+}
+
+p {
+  font-family: "DotGothic16", sans-serif;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.michama {
+  width:50px;
+  height:50px;
+  cursor: pointer;
+  
+  background-image: url("../img/icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  content: "";
+    
+  &.active {
+    animation: shake 0.5s infinite;
+    /*background-image: url("../img/icon_yellow.png");*/
+  }
+}
+
+@keyframes shake {
+  0%   { transform: translate(0, 0) rotate(0); }
+  10%  { transform: translate(-3px, -2px) rotate(-2deg); }
+  20%  { transform: translate(4px, 1px) rotate(2deg); }
+  30%  { transform: translate(-2px, 3px) rotate(-1deg); }
+  40%  { transform: translate(3px, -3px) rotate(2deg); }
+  50%  { transform: translate(-4px, 1px) rotate(-2deg); }
+  60%  { transform: translate(2px, 3px) rotate(1deg); }
+  70%  { transform: translate(-3px, -1px) rotate(-1deg); }
+  80%  { transform: translate(3px, 2px) rotate(2deg); }
+  90%  { transform: translate(-1px, -3px) rotate(-2deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+      background-image: url("../img/bg-mobile.png");
+  }
+}

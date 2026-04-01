@@ -1,0 +1,156 @@
+@import "./randomPicker.css";
+@import "./shootingStars.css";
+
+:root {
+  --main-color: hsl(var(--main-h), var(--main-s), var(--main-l));
+  --main-color-light-s: hsl(var(--main-h), var(--main-s), calc(var(--main-l) + 5%));
+  --main-color-light: hsl(var(--main-h), var(--main-s), calc(var(--main-l) + 2.5%));
+  --main-color-dark: hsl(var(--main-h), var(--main-s), calc(var(--main-l) - 2.5%));
+  --main-color-dark-s: hsl(var(--main-h), var(--main-s), calc(var(--main-l) - 5%));
+  --main-color-dark-m: hsl(var(--main-h), var(--main-s), calc(var(--main-l) - 10%));
+  --main-color-muted: hsl(var(--main-h), calc(var(--main-s) - 30%), var(--main-l));
+}
+
+#tableContainer {
+  max-height: 700px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+}
+
+#tabArea {
+  display: flex;
+  align-items: flex-end;
+}
+
+#tableContainer, #tabArea {
+  margin: 0 20%;
+}
+
+p {
+  font-size: x-large;
+  font-weight: bolder;
+  color: var(--main-color-light-s);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  tr:nth-child(even) td {
+    background-color: var(--main-color-light-s);
+  }
+
+  tr:nth-child(odd) td {
+    background-color: var(--main-color-light);
+  }
+
+  tr.grayout td{
+    background-color: #999; 
+  }
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  font-weight: bolder;
+  color: #222;
+  word-break: break-word;
+
+  &:nth-child(1) {
+    width: 40%;
+  }
+
+  &:nth-child(2) {
+    width: 30%;
+  }
+
+  &:nth-child(3) {
+    width: 8%;
+  }
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--main-color-dark-m);
+  z-index: 1;
+  border-top: 1rem;
+}
+
+button {
+  padding: 0.6rem;
+  font-size: 1rem;
+  background-color: var(--main-color-dark-m);
+  border-color: var(--main-color-dark);
+  
+  &.tab {
+    border-radius: 0.75rem 0.75rem 0 0;
+    border-bottom: none;
+    margin-right: 5px;
+    color: #222;
+    opacity: 0.6;
+  
+    &.selected {
+      font-weight: bold;
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.75;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  text-align:center;
+  margin:10px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #tableContainer {
+    overflow-x: hidden;
+    max-height: 500px;
+  }
+  #tableContainer, #tabArea {
+    margin: 0 10%;
+  }
+
+  td {
+    opacity: 0.9;
+  }
+  th, td {
+    padding: 5px;
+    font-size: small;
+    
+    &:nth-child(1) {
+      width: 80px;
+    }
+
+    &:nth-child(2) {
+      max-width: 80px;
+    }
+
+    &:nth-child(3) {
+      width: 13%;
+    }
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  button {
+    padding: 0.2rem 0.5rem;
+    font-size: xx-small;
+  }
+}

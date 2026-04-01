@@ -1,0 +1,45 @@
+
+#randomDialog { 
+  border: none;
+  border-radius: 0.5rem;
+  width: 80%;
+
+  #randomDialogInner {
+    position:relative;
+    padding:20px;
+    min-width:250px;
+
+    #closeDialogBtn {
+      position:absolute;
+      right:1.5px;
+      top:1.5px;
+      font-size: medium;
+    }
+
+    #copyRandomInfoBtn {
+      position:absolute;
+      right:10px;
+      top:140px;
+    }
+
+    #randomDisplay {
+      margin-top:20px;
+      font-size:18px;
+      width: 85%;
+      height: 5rem;
+      background-color: #eee;
+      align-content: center;
+      text-align: center;
+      justify-self: center;
+    }
+
+    #randomButtonWrap { 
+      margin-top:20px;
+      text-align:center;
+      button {
+        padding: 10px 40px;
+        font-size: medium;
+      }
+    }
+  }
+}
