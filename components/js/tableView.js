@@ -13,7 +13,7 @@ export class TableView {
     this.thead = this.dom.tableContainer.querySelector("thead");
     this.tbody = this.dom.tableContainer.querySelector("tbody");
 
-    this.dom.tableContainer.style.minHeight = `${window.innerHeight * 0.70}px`;
+    this.dom.tableContainer.style.minHeight = `${window.innerHeight * 0.65}px`;
   }
 
   render(header, data) {
