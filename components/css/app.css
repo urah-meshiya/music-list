@@ -12,7 +12,6 @@
 }
 
 #tableContainer {
-  max-height: 700px;
   overflow-y: scroll;
   border: 1px solid #ccc;
 }
@@ -119,7 +118,6 @@ button {
 @media (max-width: 768px) {
   #tableContainer {
     overflow-x: hidden;
-    max-height: 500px;
   }
   #tableContainer, #tabArea {
     margin: 0 10%;
