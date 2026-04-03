@@ -1,4 +1,4 @@
 # music-list
 
  - [柊アオイ](./HiiragiAoi)
- - [おばけ](./urah_meshiya)
+ - [柳屋おばけ](./urah_meshiya)
