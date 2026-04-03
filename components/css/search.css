@@ -1,5 +1,5 @@
 #search {
-    margin: 2.5% 10%;
+    margin: 0 20%;
 }
 
 #searchInner {
@@ -20,6 +20,7 @@
     padding: 0 0.5rem;
     width: 45px;
     height: 22px;
+    font-size: small;
   }
 
   #inputSearch {
@@ -28,5 +29,12 @@
     &:focus {
       outline: 2px solid var(--main-color-muted);;
     }
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #search {
+    margin: 2.5% 10%;
   }
 }
