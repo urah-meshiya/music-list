@@ -1,0 +1,30 @@
+#search {
+    margin: 2.5% 10%;
+}
+
+#searchInner {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  
+  #searchTargetBtn {
+    width: 35px;
+    height: 21px;
+    font-size: 0.5rem;
+    padding: 0 0.5rem;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
+
+  button {
+    padding: 0 0.5rem;
+  }
+
+  #inputSearch {
+    width: 100px;
+    height: 16px;
+    &:focus {
+      outline: 2px solid var(--main-color-muted);;
+    }
+  }
+}

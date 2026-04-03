@@ -1,5 +1,7 @@
 @import "./randomPicker.css";
+@import "./search.css";
 @import "./shootingStars.css";
+
 
 :root {
   --main-color: hsl(var(--main-h), var(--main-s), var(--main-l));

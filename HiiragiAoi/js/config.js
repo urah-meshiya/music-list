@@ -13,6 +13,10 @@ export const CONFIG = {
   title: "アオイの歌える曲リスト",
   /** ソートタブ(対象列,表示名) */
   sortTab: { H:"曲名順", I:"作者順", F:"年代順"},
+  /** 検索対象 */
+  searchTargets: { 0:{col:"H", type:"曲名", icon:"🎵", appendCol:"D"}, 1:{col:"I", type:"作者名", icon:"👤", appendCol:"E"}},
+  /** 検索種類 */
+  matchingConditions : "startsWith",
   /** 流れ星用画像 */
   ss_imageUrls: ["./img/icon.png","./img/small_star_purple.png","./img/small_star_yellow.png"],
   /** 流れ星間隔 */
