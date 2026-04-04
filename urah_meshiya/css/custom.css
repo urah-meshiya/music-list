@@ -34,6 +34,7 @@ th, td {
 
   &:nth-child(1) {
     width: 4%;
+    text-align: center;
   }
 
   &:nth-child(2) {
