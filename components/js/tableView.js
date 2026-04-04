@@ -13,8 +13,15 @@ export class TableView {
     this.thead = this.dom.tableContainer.querySelector("thead");
     this.tbody = this.dom.tableContainer.querySelector("tbody");
 
-    const calculatedHeight = window.innerHeight * 0.70 + `px`;
-    this.dom.tableContainer.style.Height = calculatedHeight;
+    this.updateHeight();
+    window.addEventListener("resize", () => {
+      this.updateHeight();
+    });
+  }
+
+  updateHeight() {
+    const calculatedHeight = window.innerHeight * 0.70 + "px";
+    this.dom.tableContainer.style.height = calculatedHeight;
     this.dom.tableContainer.style.minHeight = calculatedHeight;
     this.dom.tableContainer.style.maxHeight = calculatedHeight;
   }
