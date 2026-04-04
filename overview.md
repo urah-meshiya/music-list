@@ -40,7 +40,7 @@
 | ---- | ---- | ---- |
 | フルカスタム歌リスト(これ) | * 好き放題デザインできる <br> * メンテナンスも樂 | * 作るのが大変 |
 | [mimemo](https://mimemo.io/) | * 作るのが簡単 | * 単なるテキストのため並び替え操作やデザインは不可 | 
-| [setlink](https://setlink.jp/lp) | * 高機能(楽曲DB化、セトリ作成 ほか)で優勝版もある | * デザインは不可 |
-| [notion](https://www.notion.com/ja) | * 高機能 | * 慣れないと操作が難しい * デザインも最低限 |
-| [Googleスプレッドシート(直共有)](https://support.google.com/docs/answer/6000292?hl=ja) | * 色々できる(関数、クエリほか) | * 慣れないと操作が難しい * デザインも不可 |
+| [setlink](https://setlink.jp/lp) | * 高機能(楽曲DB化、セトリ作成 ほか)で有償版もある | * デザインは不可 |
+| [notion](https://www.notion.com/ja) | * 高機能 | * 慣れないと操作が難しい<br> * デザインも最低限 |
+| [Googleスプレッドシート(直共有)](https://support.google.com/docs/answer/6000292?hl=ja) | * 色々できる(関数、クエリほか) | * 慣れないと操作が難しい<br> * デザインも不可 |
 
