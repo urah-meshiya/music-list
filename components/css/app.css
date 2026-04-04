@@ -27,6 +27,11 @@
   margin: 0 20%;
 }
 
+#tableSpinner {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 p {
   font-size: x-large;
   font-weight: bolder;

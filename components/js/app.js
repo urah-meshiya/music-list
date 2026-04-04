@@ -55,6 +55,10 @@ export class App {
 
     const { header, data } = await this.sheetService.fetch();
     this.data = data;
+    const tableSpinner = this.dom.tableContainer.querySelector("#tableSpinner");
+    if (tableSpinner) {
+      tableSpinner.remove();
+    }
 
     this.tableView ? this.tableView.render(header, this.data) : '';
     this.tab ? this.tab.setData(this.data) : '';

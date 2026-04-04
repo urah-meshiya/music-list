@@ -3,7 +3,7 @@ export class TableView {
     this.CONFIG = CONFIG;
     this.dom = dom;
 
-    this.dom.tableContainer.innerHTML = `
+    this.dom.tableContainer.innerHTML += `
       <table>
         <thead></thead>
         <tbody></tbody>
