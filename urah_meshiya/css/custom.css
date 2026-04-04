@@ -85,6 +85,15 @@ th, td {
   white-space: pre-line;
 }
 
+.button {
+  padding: 1px 5px;
+  margin-left: 0.5rem;
+  align-self: center;
+  border-radius: 0.5rem;
+  background-color: rgb(70, 161, 161);
+  color: #fff;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {
@@ -107,5 +116,10 @@ th, td {
     &:nth-child(4) {
       width: 15%;
     }
+  }
+
+  .button {
+    padding: 2.5px;
+    font-size: xx-small;
   }
 }
