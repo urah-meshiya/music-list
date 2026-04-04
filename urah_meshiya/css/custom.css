@@ -27,10 +27,11 @@ p {
 
 th, td {
   border: 1px solid #ccc;
-  padding: 6px;
+  padding: 4px;
   font-weight: bolder;
   color: #222;
   word-break: break-word;
+  font-size: small;
 
   &:nth-child(1) {
     width: 4%;
