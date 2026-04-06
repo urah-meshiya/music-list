@@ -1,6 +1,6 @@
 export const CONFIG = {
   /** Googleスプレッドシート(公開)のURL */
-  url: "https://docs.google.com/spreadsheets/d/15CVfl5eyirU20CJBmpEKiz_nKEDlnJo3uT32mwk0th0/export?format=csv&gid=815885868",
+  url: "https://docs.google.com/spreadsheets/d/15CVfl5eyirU20CJBmpEKiz_nKEDlnJo3uT32mwk0th0/export?format=csv&gid=815885868_",
   /** ヘッダー行 */
   headerRowIndex: 4,
   /** 表示対象列 */

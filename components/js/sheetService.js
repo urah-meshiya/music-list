@@ -4,9 +4,20 @@ export class SheetService {
   }
 
   async fetch() {
-    const res = await fetch(this.CONFIG.url);
-    const text = await res.text();
-    return this.parse(text);
+    try {
+      const res = await fetch(this.CONFIG.url);
+      if (!res.ok) {
+        throw new Error(`HTTP error: ${res.status} ${res.statusText}`);
+      }
+
+      const text = await res.text();
+      const parsed = this.parse(text);
+      return parsed;
+
+    } catch (err) {
+      console.error("fetch failed:", err);
+      throw err;
+    }
   }
 
   parse(text) {

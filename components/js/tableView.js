@@ -62,5 +62,24 @@ export class TableView {
 
       this.tbody.appendChild(tr);
     });
+
+    // 1件も追加されていない場合
+    if (this.tbody.children.length === 0) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.textContent = "条件にあてはまる曲はありません。";
+      td.colSpan = this.CONFIG.displayColumns.length;
+      tr.appendChild(td);
+      this.tbody.appendChild(tr);
+    }
+  }
+
+  errFetch(err) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.textContent = `Googleスプレッドシートの取得に失敗しました。\n${err}`;
+    td.colSpan = this.CONFIG.displayColumns.length;
+    tr.appendChild(td);
+    this.tbody.appendChild(tr);
   }
 }

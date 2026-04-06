@@ -53,8 +53,22 @@ export class App {
   async init() {
     this.setupTitle();
 
-    const { header, data } = await this.sheetService.fetch();
-    this.data = data;
+    let header = [];
+    let data = [];
+
+    try {
+      const result = await this.sheetService.fetch();
+      header = result.header;
+      data = result.data;
+      this.data = data;
+
+    } catch (err) {
+      console.error("init fetch error:", err);
+      this.data = [];
+      this.tableView.errFetch(err);
+      return;
+    }
+
     const tableSpinner = this.dom.tableContainer.querySelector("#tableSpinner");
     if (tableSpinner) {
       tableSpinner.remove();
