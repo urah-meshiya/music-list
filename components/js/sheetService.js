@@ -22,11 +22,16 @@ export class SheetService {
 
   parse(text) {
     const rows = this.parseCSV(text);
-    const header = rows[this.CONFIG.headerRowIndex -1];
-    const data = rows
+    const header = rows[this.CONFIG.headerRowIndex - 1];
+
+    let data = rows
       .slice(this.CONFIG.headerRowIndex)
-      .map(r => this.normalize(r))
-      .filter(r => this.isValid(r));
+      .map(r => this.normalize(r));
+
+    if (this.CONFIG.primaryCol) {
+      data = data.filter(r => this.isValid(r));
+    }
+
     return { header, data };
   }
 
@@ -87,6 +92,6 @@ export class SheetService {
   }
 
   isValid(row) {
-    return row.D?.trim();
+    return row[this.CONFIG.primaryCol]?.trim();
   }
 }
