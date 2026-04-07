@@ -134,10 +134,15 @@ button, .button {
   }
 }
 
+
 /* Mobile */
 @media (max-width: 768px) {
   body {
       background-image: url("../img/bg.png");
+  }
+
+  #tableContainer, #tabArea {
+    margin: 0 5%;
   }
 
   th, td {
