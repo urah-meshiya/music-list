@@ -48,11 +48,8 @@ th {
 td {
   color: #191b09;
   font-weight: bolder;
-  text-shadow:
-    -1px -1px 0 #fbffe6,
-     1px -1px 0 #fbffe6,
-    -1px  1px 0 #fbffe6,
-     1px  1px 0 #fbffe6;
+  text-shadow: -1px -1px 0 #fbffe6, 1px -1px 0 #fbffe6, -1px  1px 0 #fbffe6, 1px  1px 0 #fbffe6;
+  /*text-shadow: 3px 3px 3px #ffffff;*/
 }
 
 tr:nth-child(odd) td {
