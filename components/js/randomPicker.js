@@ -58,10 +58,8 @@ export class RandomPicker {
       if (!this.data.length) return;
 
       const row = this.data[Math.floor(Math.random() * this.data.length)];
-      if (this.CONFIG.primaryCol && this.CONFIG.secondaryCol) {
-        this.displayEl.textContent = `${row[this.CONFIG.primaryCol]} / ${row[this.CONFIG.secondaryCol]}`;
-      } else if (this.CONFIG.primaryCol) {
-        this.displayEl.textContent = `${row[this.CONFIG.primaryCol]}`;
+      if (this.CONFIG.primaryCol) {
+        this.displayEl.textContent = `${row[this.CONFIG.primaryCol]}${this.CONFIG.secondaryCol ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
       } else {
         this.displayEl.textContent = `${row.D} / ${row.E}`;
       }

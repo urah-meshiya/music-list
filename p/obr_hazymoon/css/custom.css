@@ -1,10 +1,10 @@
 @import "../../../components/css/app.css";
 
 :root {
-  --main: hsl(223, 40%, 20%);
-  --main-h: 223;
-  --main-s: 40%;
-  --main-l: 20%;
+  --main: hsl(300, 5%, 55%);
+  --main-h: 300;
+  --main-s: 5%;
+  --main-l: 55%;
 }
 
 body {
@@ -12,11 +12,11 @@ body {
   margin: 0; 
 
   background-image: url("../img/bg.png");
-  /*background-repeat: no-repeat;*/
-  background-position: 0;
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 
-  background-color: hsl(55, 32%, 93%);
+  background-color: hsl(351, 9%, 15%);
 }
 
 p {
@@ -30,7 +30,7 @@ th, td {
   border: 1px solid #ccc;
   padding: 4px;
   font-weight: bolder;
-  color: #eef7bd;
+  /*color: hsl(351, 9%, 15%);*/
   word-break: break-word;
   font-size: small;
 
@@ -39,9 +39,27 @@ th, td {
   }
 
   &:nth-child(2) {
-    width: 30%;
+    width: 40%;
   }
+}
+th {
+  color: #fff;
+}
+td {
+  color: #191b09;
+  font-weight: bolder;
+  text-shadow:
+    -1px -1px 0 #fbffe6,
+     1px -1px 0 #fbffe6,
+    -1px  1px 0 #fbffe6,
+     1px  1px 0 #fbffe6;
+}
 
+tr:nth-child(odd) td {
+  background-color: hsl(var(--main-h), var(--main-s), calc(var(--main-l) + 0.5%), 0.7) !important;
+}
+tr:nth-child(even) td {
+  background-color: hsl(var(--main-h), var(--main-s), calc(var(--main-l) + 7%), 0.7) !important;
 }
 
 button, .button {
@@ -94,7 +112,7 @@ button, .button {
   padding: 1px 5px;
   align-self: center;
   border-radius: 0.5rem;
-  background-color: rgb(51, 56, 97);
+  background-color: hsl(351, 10%, 28%);
   color: #fff;
   width: 10rem;
 }
@@ -103,7 +121,7 @@ button, .button {
   border: none;
   border-radius: 0.5rem;
   width: 80%;
-  background-color: rgb(51, 56, 97);
+  background-color: hsl(351, 10%, 28%);
 
   #randomDialogInner {
 
