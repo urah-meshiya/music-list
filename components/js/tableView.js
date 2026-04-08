@@ -20,7 +20,7 @@ export class TableView {
   }
 
   updateHeight() {
-    const calculatedHeight = window.innerHeight * 0.70 + "px";
+    const calculatedHeight = window.innerHeight * (this.CONFIG.tableHeightRatio ?? 0.70) + "px";
     this.dom.tableContainer.style.height = calculatedHeight;
     this.dom.tableContainer.style.minHeight = calculatedHeight;
     this.dom.tableContainer.style.maxHeight = calculatedHeight;

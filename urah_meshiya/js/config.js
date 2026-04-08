@@ -18,5 +18,7 @@ export const CONFIG = {
   /** 検索対象 */
   searchTargets: { 0:{col:"H", type:"曲名", icon:"🎵", appendCol:"D"}, 1:{col:"I", type:"作者名", icon:"👤", appendCol:"E"}},
   /** 検索種類 */
-  matchingConditions : "include"
+  matchingConditions : "include",
+  /** テーブル拡大率 */
+  tableHeightRatio: 0.80
 };
