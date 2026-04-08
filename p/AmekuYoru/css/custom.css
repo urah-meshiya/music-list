@@ -47,8 +47,13 @@ th, td {
   }
 
   &:nth-child(4) {
-    width: 8%;
+    width: 10%;
+    letter-spacing: -1.5px;
   }
+}
+
+#tableContainer, #tabArea {
+  margin: 0 15%;
 }
 
 .footer {
@@ -121,7 +126,6 @@ th, td {
     &:nth-child(4) {
       width: 18%;
       font-size: xx-small;
-      letter-spacing: -1.5px;
     }
   }
 
