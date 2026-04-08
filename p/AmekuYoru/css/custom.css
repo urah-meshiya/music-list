@@ -96,7 +96,11 @@ th, td {
 /* Mobile */
 @media (max-width: 768px) {
   body {
-      background-image: url("../img/bg.png");
+    background-image: url("../img/bg.png");
+  }
+
+  #tableContainer, #tabArea {
+    margin: 0 2.5%;
   }
 
   th, td {
@@ -111,10 +115,13 @@ th, td {
 
     &:nth-child(3) {
       max-width: 80px;
+      letter-spacing: -1.5px;
     }
 
     &:nth-child(4) {
-      width: 15%;
+      width: 18%;
+      font-size: xx-small;
+      letter-spacing: -1.5px;
     }
   }
 
