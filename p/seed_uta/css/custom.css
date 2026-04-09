@@ -24,7 +24,6 @@ p {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-
 th, td {
   border: 1px solid #ccc;
   padding: 4px;
@@ -49,6 +48,11 @@ th, td {
   &:nth-child(4) {
     width: 8%;
   }
+}
+
+nav {
+  justify-content: flex-end;
+  padding-bottom: 10px;
 }
 
 .footer {

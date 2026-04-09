@@ -52,7 +52,7 @@ export class Search extends EventTarget {
       return;
     }
     this.inputSearch.placeholder = target.type + "で検索";
-    this.applyFilter(this.inputSearch.value ?? "");
+    this.applyFilter();
   }
 
   bindEvents() {
@@ -65,11 +65,13 @@ export class Search extends EventTarget {
     });
 
     this.clearSearchBtn.addEventListener("click", () => {
-      this.resetFilter();
+      this.clearInput();
+      if (!this.data) return;
+      this.dispatchEvent(new CustomEvent("execSearch", { detail: this.data }));
     });
   }
 
-  applyFilter(keyword) {
+  applyFilter(keyword = this.inputSearch.value) {
     if (!this.data) return;
 
     const key = this.searchTargetBtn.dataset.searchTarget ?? 'A';
@@ -95,9 +97,7 @@ export class Search extends EventTarget {
     this.dispatchEvent(new CustomEvent("execSearch", { detail: filtered }));
   }
 
-  resetFilter() {
+  clearInput() {
     this.inputSearch.value = "";
-    if (!this.data) return;
-    this.dispatchEvent(new CustomEvent("execSearch", { detail: this.data }));
   }
 }

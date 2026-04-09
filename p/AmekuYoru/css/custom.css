@@ -52,7 +52,12 @@ th, td {
   }
 }
 
-#tableContainer, #tabArea {
+nav {
+  justify-content: flex-end;
+  padding-bottom: 10px;
+}
+
+#tableContainer, #tabArea, nav {
   margin: 0 15%;
 }
 
@@ -104,7 +109,7 @@ th, td {
     background-image: url("../img/bg.png");
   }
 
-  #tableContainer, #tabArea {
+  #tableContainer, #tabArea, nav {
     margin: 0 2.5%;
   }
 

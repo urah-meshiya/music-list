@@ -1,7 +1,7 @@
 @import "./randomPicker.css";
 @import "./search.css";
 @import "./shootingStars.css";
-
+@import "./counter.css";
 
 :root {
   --main-color: hsl(var(--main-h), var(--main-s), var(--main-l));
@@ -23,13 +23,19 @@
   align-items: flex-end;
 }
 
-#tableContainer, #tabArea {
+#tableContainer, #tabArea, nav {
   margin: 0 20%;
 }
 
 #tableSpinner {
   overflow-x: hidden;
   overflow-y: hidden;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 p {
@@ -126,7 +132,7 @@ button, .button {
   #tableContainer {
     overflow-x: hidden;
   }
-  #tableContainer, #tabArea {
+  #tableContainer, #tabArea, nav {
     margin: 0 10%;
   }
 

@@ -96,13 +96,43 @@ th, td {
   color: #fff;
 }
 
+.spinner {
+  background-image: url("../img/icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+  height: 150px;
+  /*width: 200px;*/
+  margin-top: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#counterInner {
+  background-color: #76a5bb;
+  border-radius: 0.5rem;
+  padding: 0px 15px;
+  p {
+    padding: 0;
+  }
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {
       background-image: url("../img/bg.png");
   }
 
-  #tableContainer, #tabArea {
+  #tableContainer, #tabArea, nav {
     margin: 0 3.5%;
   }
 
