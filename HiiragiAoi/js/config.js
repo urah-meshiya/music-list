@@ -27,5 +27,6 @@ export const CONFIG = {
   grayoutTargetColumn: "C",
   /** グレーアウト判定内容 */
   grayoutTargetText: "-",
-
+  /** テーブル拡大率 */
+  tableHeightRatio: 0.75
 };

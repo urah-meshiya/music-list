@@ -73,7 +73,7 @@ th, td {
   100% { transform: translate(0, 0) rotate(0); }
 }
 
-.tooltip {
+.a-tooltip {
   position: fixed;
   display: none;
   max-width: 240px;

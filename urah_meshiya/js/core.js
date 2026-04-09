@@ -13,8 +13,7 @@ let isOpen = false;
 
 function show(x, y) {
   tooltip.textContent = DESCRIPTION;
-  tooltip.style.display = "block";
-
+  tooltip.classList.add("visible");
   const offset = 8;
   tooltip.style.left = x + offset + "px";
   tooltip.style.top = y - tooltip.offsetHeight - offset + "px";
@@ -23,13 +22,13 @@ function show(x, y) {
 }
 
 function hide() {
-  tooltip.style.display = "none";
+  tooltip.classList.remove("visible");
   isOpen = false;
 }
 
 th.addEventListener("mouseenter", () => {
   tooltip.textContent = DESCRIPTION;
-  tooltip.style.display = "block";
+  tooltip.classList.add("visible");
 });
 
 th.addEventListener("mousemove", (e) => {

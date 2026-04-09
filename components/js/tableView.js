@@ -8,10 +8,16 @@ export class TableView {
         <thead></thead>
         <tbody></tbody>
       </table>
+      <div id="tooltip"></div>
     `;
 
     this.thead = this.dom.tableContainer.querySelector("thead");
     this.tbody = this.dom.tableContainer.querySelector("tbody");
+    this.tooltip = this.dom.tableContainer.querySelector("#tooltip");
+
+    document.addEventListener("click", () => {
+      this.tooltip.classList.remove("visible");
+    });
 
     this.updateHeight();
     window.addEventListener("resize", () => {
@@ -52,18 +58,47 @@ export class TableView {
 
       this.CONFIG.displayColumns.forEach(col => {
         const td = document.createElement("td");
-        td.textContent = row[col];
+        const span = document.createElement("span");
+        span.textContent = row[col] ?? "";
+        td.appendChild(span);
+
+        // 情報アイコンの追加
+        if ( this.CONFIG.infoIconCol && this.CONFIG.infoSrcCol &&
+          col === this.CONFIG.infoIconCol && row[this.CONFIG.infoSrcCol] ) 
+        {
+          const icon = document.createElement("span");
+          icon.classList.add("info-icon");
+          icon.textContent = "ⓘ";
+
+          icon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            // 内容差し替え
+            this.tooltip.textContent = row[this.CONFIG.infoSrcCol];
+            // 位置調整
+            const rect = icon.getBoundingClientRect();
+            this.tooltip.style.left = rect.left + window.scrollX + "px";
+            this.tooltip.style.top = rect.bottom + window.scrollY + "px";
+            // 表示
+            this.tooltip.classList.add("visible");
+          });
+
+          td.appendChild(icon);
+        }
+
         tr.appendChild(td);
       });
 
-      if (this.CONFIG.grayoutTargetColumn && this.CONFIG.grayoutTargetText&& (row[this.CONFIG.grayoutTargetColumn] == this.CONFIG.grayoutTargetText)) {
+      if (
+        this.CONFIG.grayoutTargetColumn &&
+        this.CONFIG.grayoutTargetText &&
+        (row[this.CONFIG.grayoutTargetColumn] == this.CONFIG.grayoutTargetText)
+      ) {
         tr.classList.add("grayout");
       }
 
       this.tbody.appendChild(tr);
     });
 
-    // 1件も追加されていない場合
     if (this.tbody.children.length === 0) {
       const tr = document.createElement("tr");
       const td = document.createElement("td");
