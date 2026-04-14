@@ -14,7 +14,7 @@ export const CONFIG = {
   /** ページタイトル */
   title: "すこの歌える曲リスト",
   /** ソートタブ(対象列,表示名) */
-  sortTab: { H:"曲名順", I:"作者順"},
+  sortTab: { H:"曲名順", I:"作者順", J:"オススメ順"},
   /** 検索対象 */
   searchTargets: { 0:{col:"H", type:"曲名", icon:"🎵", appendCol:"D"}, 1:{col:"I", type:"作者名", icon:"👤", appendCol:"E"}},
   /** 検索種類 */
