@@ -106,7 +106,7 @@ nav {
 /* Mobile */
 @media (max-width: 768px) {
   body {
-    background-image: url("../img/bg.png");
+    background-image: url("../img/bg-mobile.png");
   }
 
   #tableContainer, #tabArea, nav {
