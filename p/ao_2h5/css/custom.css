@@ -21,6 +21,7 @@ body {
 
 p {
   font-family: "DotGothic16", sans-serif;
+  color: #fff;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
