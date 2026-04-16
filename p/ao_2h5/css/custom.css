@@ -1,0 +1,99 @@
+@import "../../../components/css/app.css";
+
+:root {
+  --main: hsl(0, 2.5%, 10%);
+  --main-h: 0;
+  --main-s: 2.5%;
+  --main-l: 10%;
+}
+
+body {
+  font-family: 'Yomogi', sans-serif;
+  margin: 0; 
+
+  background-image: url("../img/bg.png");
+  /*background-repeat: no-repeat;*/
+  background-position: 0;
+  background-size: cover;
+
+  background-color: #F2F1E6;
+}
+
+p {
+  font-family: "DotGothic16", sans-serif;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 4px;
+  font-weight: bolder;
+  color: #fff;
+  word-break: break-word;
+  font-size: small;
+
+  &:nth-child(1) {
+    width: 60%;
+  }
+
+  &:nth-child(2) {
+    width: 30%;
+  }
+}
+
+nav {
+  justify-content: flex-end;
+}
+
+#tableContainer, #tabArea, nav {
+  margin: 0 30%;
+}
+.tooltip {
+  position: fixed;
+  display: none;
+  max-width: 240px;
+  padding: 8px 10px;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 9999;
+  white-space: pre-line;
+}
+
+button {
+  padding: 1px 5px;
+  align-self: center;
+  background-color: rgb(51, 0, 0);
+  color: #fff !important;
+  
+  &.tab {
+    padding: 0.25rem;
+    font-size: 0.8rem;
+    border-color: var(--main-color-dark);
+  }
+}
+
+.button {
+  padding: 1px 5px;
+  margin: 0 0 0.5rem 1rem;
+  color: #fff;
+  font-size: x-small;
+  background-color: rgb(109, 4, 4);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+      background-image: url("../img/bg.png");
+  }
+  
+  #tableContainer, #tabArea, nav {
+    margin: 0 5%;
+  }
+
+  button, .button {
+    font-size: xx-small;
+  }
+}
