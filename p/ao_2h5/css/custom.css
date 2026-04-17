@@ -84,6 +84,14 @@ button {
   background-color: rgb(109, 4, 4);
 }
 
+td a, td a:visited, td a:hover, td a:active {
+  color: inherit;
+  text-decoration: underline;
+  &:focus {
+    color: inherit;
+  }
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {

@@ -26,5 +26,7 @@ export const CONFIG = {
   /** 情報アイコンを出す列 */
   infoIconCol: "D",
   /** 情報アイコンホバー時の情報ソース列 */
-  infoSrcCol: "G"
+  infoSrcCol: "G",
+  /** URL列 */
+  urlSrcCol: "F"
 };

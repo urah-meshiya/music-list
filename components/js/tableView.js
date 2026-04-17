@@ -60,7 +60,20 @@ export class TableView {
         const td = document.createElement("td");
         const span = document.createElement("span");
         span.textContent = row[col] ?? "";
-        td.appendChild(span);
+
+        // リンクの追加
+        if ( this.CONFIG.urlSrcCol && this.CONFIG.primaryCol &&
+          col === this.CONFIG.primaryCol && row[this.CONFIG.urlSrcCol])
+        {
+          const a = document.createElement("a");
+          a.href = row[this.CONFIG.urlSrcCol];
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.appendChild(span);
+          td.appendChild(a);
+        } else {
+          td.appendChild(span);
+        }
 
         // 情報アイコンの追加
         if ( this.CONFIG.infoIconCol && this.CONFIG.infoSrcCol &&
