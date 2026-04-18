@@ -58,10 +58,49 @@ export class RandomPicker {
       if (!this.data.length) return;
 
       const row = this.data[Math.floor(Math.random() * this.data.length)];
-      if (this.CONFIG.primaryCol) {
-        this.displayEl.textContent = `${row[this.CONFIG.primaryCol]}${this.CONFIG.secondaryCol ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
+
+      // 表示内容クリア
+      this.displayEl.innerHTML = "";
+
+      const primary = this.CONFIG.primaryCol
+        ? row[this.CONFIG.primaryCol]
+        : row.D;
+
+      const secondary = this.CONFIG.secondaryCol
+        ? row[this.CONFIG.secondaryCol]
+        : row.E;
+
+      const url =
+        this.CONFIG.urlSrcCol && row[this.CONFIG.urlSrcCol]
+          ? row[this.CONFIG.urlSrcCol]
+          : null;
+
+      let primaryEl;
+      if (url) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.textContent = primary ?? "";
+        a.target = "_blank";
+        a.style.color = "inherit";
+        a.style.textDecoration = "underline";
+
+        primaryEl = a;
       } else {
-        this.displayEl.textContent = `${row.D} / ${row.E}`;
+        const span = document.createElement("span");
+        span.textContent = primary ?? "";
+        primaryEl = span;
+      }
+
+      this.displayEl.appendChild(primaryEl);
+
+      // secondaryがある場合
+      if (secondary) {
+        const sep = document.createTextNode(" / ");
+        const secondaryEl = document.createElement("span");
+        secondaryEl.textContent = secondary;
+
+        this.displayEl.appendChild(sep);
+        this.displayEl.appendChild(secondaryEl);
       }
     }, 100);
   }
