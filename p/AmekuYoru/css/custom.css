@@ -22,6 +22,7 @@ body {
 p {
   font-family: "DotGothic16", sans-serif;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  margin: 5px;
 }
 
 
@@ -53,7 +54,6 @@ th, td {
 }
 
 nav {
-  justify-content: flex-end;
   padding-bottom: 10px;
 }
 
@@ -101,6 +101,15 @@ nav {
   border-radius: 0.5rem;
   background-color: rgb(230, 126, 57);
   color: #fff;
+}
+
+#counterInner {
+  background-color: #76a5bb;
+  border-radius: 0.5rem;
+  padding: 0px 15px;
+  p {
+    padding: 0;
+  }
 }
 
 /* Mobile */
