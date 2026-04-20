@@ -121,7 +121,7 @@ export class RandomPicker {
 
   copyInfo() {
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(this.displayEl.innerHTML)
+      navigator.clipboard.writeText(this.displayEl.innerText)
       .then(() => {
         const originalText = this.copyBtn.innerHTML;
         this.copyBtn.innerHTML = "✓";
