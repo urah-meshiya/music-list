@@ -48,7 +48,7 @@ document.addEventListener("click", hide);
 const testBtn = app.dom.tabArea.querySelector("#testBtn");
 
 // テスト
-testBtn.addEventListener("click", async () => {
+testBtn?.addEventListener("click", async () => {
   try {
     const res = await fetch("https://fragrant-king-6465.ponzu946.workers.dev/", {
       method: "POST",
