@@ -3,9 +3,11 @@ export class SheetService {
     this.CONFIG = CONFIG;
   }
 
-  async fetch() {
+  async fetch(index = 0) {
     try {
-      const res = await fetch(this.CONFIG.url);
+      const url = this.resolveUrl(index);
+
+      const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`HTTP error: ${res.status} ${res.statusText}`);
       }
@@ -18,6 +20,28 @@ export class SheetService {
       console.error("fetch failed:", err);
       throw err;
     }
+  }
+
+  resolveUrl(index) {
+    const { url } = this.CONFIG;
+
+    if (Array.isArray(url)) {
+      if (url.length === 0) {
+        throw new Error("CONFIG.url array is empty");
+      }
+
+      if (index < 0 || index >= url.length) {
+        throw new Error(`URL index out of range: ${index}`);
+      }
+
+      return url[index];
+    }
+
+    if (typeof url === "string") {
+      return url;
+    }
+
+    throw new Error("CONFIG.url must be string or array");
   }
 
   parse(text) {

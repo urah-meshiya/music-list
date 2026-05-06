@@ -62,30 +62,30 @@ export class App {
   }
 
   init() {
-  return (async () => {
-    this.setupTitle();
+    return (async () => {
+      this.setupTitle();
 
-    try {
-      const result = await this.sheetService.fetch();
-      this.header = result.header;
-      this.data = result.data;
+      try {
+        const result = await this.sheetService.fetch();
+        this.header = result.header;
+        this.data = result.data;
 
-      this.tableView?.render(this.header, this.data);
-      this.tab?.setData(this.data);
-      this.search?.setData(this.data);
-      this.randomPicker?.setData(this.data);
-      this.counter?.setData(this.data);
+        this.tableView?.render(this.header, this.data);
+        this.tab?.setData(this.data);
+        this.search?.setData(this.data);
+        this.randomPicker?.setData(this.data);
+        this.counter?.setData(this.data);
 
-    } catch (err) {
-      console.error("init fetch error:", err);
-      this.data = [];
-      this.tableView?.errFetch(err);
-    } finally {
-      // 最新のスピナーDOMを取得して削除
-      document.querySelector("#tableSpinner")?.remove();
-    }
-  })();
-}
+      } catch (err) {
+        console.error("init fetch error:", err);
+        this.data = [];
+        this.tableView?.errFetch(err);
+      } finally {
+        // 最新のスピナーDOMを取得して削除
+        document.querySelector("#tableSpinner")?.remove();
+      }
+    })();
+  }
 
   setupTitle() {
     document.title = this.CONFIG.title;
