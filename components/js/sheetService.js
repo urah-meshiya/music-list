@@ -1,6 +1,21 @@
-export class SheetService {
+export class SheetService extends EventTarget {
   constructor(CONFIG) {
+    super();
+
     this.CONFIG = CONFIG;
+    this.pagingNum = 0;
+
+    const pagingBtn = document.querySelector('#pagingBtn');
+    pagingBtn?.addEventListener('click', () => {
+      if (this.CONFIG.url && Array.isArray(this.CONFIG.url)) {
+        if (this.CONFIG.url.length > this.pagingNum + 1) {
+          this.pagingNum++;
+        } else {
+          this.pagingNum = 0;
+        }
+        this.dispatchEvent(new CustomEvent("execPaging", {detail: this.pagingNum}));
+      }
+    })
   }
 
   async fetch(index = 0) {

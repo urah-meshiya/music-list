@@ -24,6 +24,9 @@ export class App {
     };
 
     this.sheetService = new SheetService(this.CONFIG);
+    this.sheetService.addEventListener("execPaging", (e) => {
+      this.init(e.detail);
+    });
 
     if (this.dom.tableContainer) {
       this.tableView = new TableView(this.CONFIG, this.dom);
@@ -61,12 +64,12 @@ export class App {
     this.completed = this.init();
   }
 
-  init() {
+  init(index = 0) {
     return (async () => {
       this.setupTitle();
 
       try {
-        const result = await this.sheetService.fetch();
+        const result = await this.sheetService.fetch(index);
         this.header = result.header;
         this.data = result.data;
 
