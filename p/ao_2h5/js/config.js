@@ -28,5 +28,8 @@ export const CONFIG = {
   /** 情報アイコンホバー時の情報ソース列 */
   infoSrcCol: "G",
   /** URL列 */
-  urlSrcCol: "F"
+  urlSrcCol: "F",
+
+  /** ランダムの制御 */
+  rp_switch: true
 };

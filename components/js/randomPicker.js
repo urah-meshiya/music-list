@@ -3,21 +3,33 @@ export class RandomPicker {
     this.CONFIG = CONFIG;
     this.dom = dom;
 
+    const switchHtml = this.CONFIG.rp_switch
+      ? `
+        <label id="randomFilterWrap">
+          <input type="checkbox" id="randomFilterCheckbox">
+          URL未入力のみ
+        </label>
+      `
+      : "";
+
     this.dom.dialog.innerHTML = `
       <div id="randomDialogInner" >
         <button id="closeDialogBtn">×</button>
         <button id="copyRandomInfoBtn">📋</button>
         <div id="randomDisplay">${this.CONFIG.randomDisplayDefaultText ?? "スタートをおしてね"}</div>
+
         <div id="randomButtonWrap">
           <button id="toggleRandomBtn">${this.CONFIG.startRandomText ?? "スタート"}</button>
         </div>
+        ${switchHtml}
       </div>
     `;
 
     this.displayEl = this.dom.dialog.querySelector("#randomDisplay");
     this.toggleBtn = this.dom.dialog.querySelector("#toggleRandomBtn");
     this.copyBtn = this.dom.dialog.querySelector("#copyRandomInfoBtn");
-  
+    this.filterCheckbox = this.dom.dialog.querySelector("#randomFilterCheckbox");
+
     this.interval = null;
     this.running = false;
     this.data = [];
@@ -57,7 +69,24 @@ export class RandomPicker {
     this.interval = setInterval(() => {
       if (!this.data.length) return;
 
-      const row = this.data[Math.floor(Math.random() * this.data.length)];
+      let targetData = this.data;
+
+      // URLなしのみフィルタ
+      if (
+        this.CONFIG.rp_switch &&
+        this.filterCheckbox &&
+        this.filterCheckbox.checked
+      ) {
+        targetData = this.data.filter(row => {
+          const value = row[this.CONFIG.urlSrcCol];
+          return !value;
+        });
+      }
+
+      // 対象0件なら何もしない
+      if (!targetData.length) return;
+
+      const row = targetData[Math.floor(Math.random() * targetData.length)];
 
       // 表示内容クリア
       this.displayEl.innerHTML = "";
@@ -76,6 +105,7 @@ export class RandomPicker {
           : null;
 
       let primaryEl;
+
       if (url) {
         const a = document.createElement("a");
         a.href = url;
@@ -85,6 +115,7 @@ export class RandomPicker {
         a.style.textDecoration = "underline";
 
         primaryEl = a;
+
       } else {
         const span = document.createElement("span");
         span.textContent = primary ?? "";
@@ -102,6 +133,7 @@ export class RandomPicker {
         this.displayEl.appendChild(sep);
         this.displayEl.appendChild(secondaryEl);
       }
+
     }, 100);
   }
 
@@ -121,10 +153,13 @@ export class RandomPicker {
 
   copyInfo() {
     if (navigator.clipboard && window.isSecureContext) {
+
       navigator.clipboard.writeText(this.displayEl.innerText)
       .then(() => {
         const originalText = this.copyBtn.innerHTML;
+
         this.copyBtn.innerHTML = "✓";
+
         setTimeout(() => {
           this.copyBtn.innerHTML = originalText;
         }, 2000);
@@ -132,8 +167,9 @@ export class RandomPicker {
       .catch(err => {
         console.error("コピー失敗:", err);
       });
+
     } else {
-        alert("コピー失敗。手動でコピーしてね。");
+      alert("コピー失敗。手動でコピーしてね。");
     }
   }
 }
