@@ -62,6 +62,7 @@ export class App {
     }
 
     this.completed = this.init();
+    //this.addInformation();
   }
 
   init(index = 0) {
@@ -93,6 +94,54 @@ export class App {
   setupTitle() {
     document.title = this.CONFIG.title;
     this.dom.title.innerHTML = this.CONFIG.title;
+  }
+
+  addInformation = () => {
+    // =========================
+    // HTML追加
+    // =========================
+    document.body.insertAdjacentHTML(
+    "beforeend",
+    `
+    <!-- 右下ボタン -->
+    <button class="info-corner-btn" id="openInfoModal">
+      <span class="material-symbols-outlined">
+        ≡
+      </span>
+    </button>
+
+    <!-- モーダル -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <button class="close-btn" id="closeModal">×</button>
+
+        <h2>Information</h2>
+
+        <p>
+          ここに説明やヘルプ内容を表示できます。
+        </p>
+      </div>
+    </div>
+    `
+    );
+
+    const openBtn = document.getElementById("openInfoModal");
+    const closeBtn = document.getElementById("closeModal");
+    const overlay = document.getElementById("modalOverlay");
+
+    openBtn.addEventListener("click", () => {
+      overlay.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      overlay.classList.remove("open");
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove("open");
+      }
+    });
   }
 
 }

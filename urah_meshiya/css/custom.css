@@ -20,7 +20,7 @@ body {
 }
 
 #tableContainer, #tabArea, nav {
-  margin: 0 35%;
+  margin: 0 26vw;
 }
 
 p {
@@ -131,6 +131,15 @@ th, td {
   }
 }
 
+a {
+  text-decoration: none;
+  color: #4163ad;
+  transition: background-size 0.2s;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {
@@ -153,7 +162,8 @@ th, td {
     }
 
     &:nth-child(3) {
-      max-width: 80px;
+      width: 28%;
+      max-width: 100px;
       letter-spacing: -1.5px;
     }
 

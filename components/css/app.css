@@ -2,6 +2,7 @@
 @import "./search.css";
 @import "./shootingStars.css";
 @import "./counter.css";
+@import "./info.css";
 
 :root {
   --main-color: hsl(var(--main-h), var(--main-s), var(--main-l));

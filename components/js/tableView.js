@@ -62,8 +62,8 @@ export class TableView {
         span.textContent = row[col] ?? "";
 
         // リンクの追加
-        if ( this.CONFIG.urlSrcCol && this.CONFIG.primaryCol &&
-          col === this.CONFIG.primaryCol && row[this.CONFIG.urlSrcCol])
+        if ( this.CONFIG.urlSrcCol && this.CONFIG.urlTargetCol &&
+          col === this.CONFIG.urlTargetCol && row[this.CONFIG.urlSrcCol])
         {
           const a = document.createElement("a");
           a.href = row[this.CONFIG.urlSrcCol];

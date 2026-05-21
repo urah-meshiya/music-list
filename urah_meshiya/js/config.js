@@ -8,7 +8,7 @@ export const CONFIG = {
   primaryCol: "D",
   secondaryCol: "E",
   /** 列番号(ソート目的も含む) */
-  columnIndex: { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J:9},
+  columnIndex: { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J:9, K:10},
 
   /************ カスタマイズ項目 ************/
   /** ページタイトル */
@@ -24,5 +24,9 @@ export const CONFIG = {
   /** 情報アイコンを出す列 */
   infoIconCol: "D",
   /** 情報アイコンホバー時の情報ソース列 */
-  infoSrcCol: "G"
+  infoSrcCol: "G",
+  /** URL列 */
+  urlSrcCol: "K",
+  /** URL表示列 */
+  urlTargetCol: "C"
 };

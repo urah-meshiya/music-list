@@ -29,7 +29,8 @@ export const CONFIG = {
   infoSrcCol: "G",
   /** URL列 */
   urlSrcCol: "F",
-
+  /** URL表示列 */
+  urlTargetCol: "D",
   /** ランダムの制御 */
   rp_switch: true
 };
