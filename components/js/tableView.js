@@ -1,3 +1,5 @@
+import { post } from "./sendRequest.js";
+
 export class TableView {
   constructor(CONFIG, dom) {
     this.CONFIG = CONFIG;
@@ -58,13 +60,35 @@ export class TableView {
 
       this.CONFIG.displayColumns.forEach(col => {
         const td = document.createElement("td");
-        const span = document.createElement("span");
-        span.textContent = row[col] ?? "";
+
+        // リクエストボタン列
+        if (this.CONFIG.requestButtonColumn && col === this.CONFIG.requestButtonColumn)
+        {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.classList = "requestBtn";
+          btn.textContent = "ﾘｸ";
+
+          btn.addEventListener("click", async (e) => {
+            alert("ごめん、この機能まだできてない");
+            return;
+            e.stopPropagation();
+            const musicInfo = `${row[this.CONFIG.primaryCol]}${row[this.CONFIG.secondaryCol] ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
+            if (!confirm(`${musicInfo} をリクエストしますか？`)) return;
+            post(musicInfo, this.CONFIG);
+          });
+
+          td.appendChild(btn);
+        } else {
+          const span = document.createElement("span");
+          span.textContent = row[col] ?? "";
 
         // リンクの追加
-        if ( this.CONFIG.urlSrcCol && this.CONFIG.urlTargetCol &&
-          col === this.CONFIG.urlTargetCol && row[this.CONFIG.urlSrcCol])
-        {
+        if ( this.CONFIG.urlSrcCol &&
+            this.CONFIG.urlTargetCol &&
+            col === this.CONFIG.urlTargetCol &&
+          row[this.CONFIG.urlSrcCol]
+        ) {
           const a = document.createElement("a");
           a.href = row[this.CONFIG.urlSrcCol];
           a.target = "_blank";
@@ -85,42 +109,44 @@ export class TableView {
 
           icon.addEventListener("click", (e) => {
             e.stopPropagation();
-            // 内容差し替え
+
             this.tooltip.textContent = row[this.CONFIG.infoSrcCol];
-            // 位置調整
+
             const rect = icon.getBoundingClientRect();
             this.tooltip.style.left = rect.left + window.scrollX + "px";
             this.tooltip.style.top = rect.bottom + window.scrollY + "px";
-            // 表示
+
             this.tooltip.classList.add("visible");
           });
 
           td.appendChild(icon);
         }
-
-        tr.appendChild(td);
-      });
-
-      if (
-        this.CONFIG.grayoutTargetColumn &&
-        this.CONFIG.grayoutTargetText &&
-        (row[this.CONFIG.grayoutTargetColumn] == this.CONFIG.grayoutTargetText)
-      ) {
-        tr.classList.add("grayout");
       }
 
-      this.tbody.appendChild(tr);
+      tr.appendChild(td);
     });
 
-    if (this.tbody.children.length === 0) {
-      const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.textContent = "条件にあてはまる曲はありません。";
-      td.colSpan = this.CONFIG.displayColumns.length;
-      tr.appendChild(td);
-      this.tbody.appendChild(tr);
+    // グレーアウトする行の設定
+    if (
+      this.CONFIG.grayoutTargetColumn &&
+      this.CONFIG.grayoutTargetText &&
+      (row[this.CONFIG.grayoutTargetColumn] == this.CONFIG.grayoutTargetText)
+    ) {
+      tr.classList.add("grayout");
     }
+
+    this.tbody.appendChild(tr);
+  });
+
+  if (this.tbody.children.length === 0) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.textContent = "条件にあてはまる曲はありません。";
+    td.colSpan = this.CONFIG.displayColumns.length;
+    tr.appendChild(td);
+    this.tbody.appendChild(tr);
   }
+}
 
   errFetch(err) {
     const tr = document.createElement("tr");

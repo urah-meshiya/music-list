@@ -1,10 +1,12 @@
 export const CONFIG = {
   /** Googleスプレッドシート(公開)のURL */
   url: ["https://docs.google.com/spreadsheets/d/15CVfl5eyirU20CJBmpEKiz_nKEDlnJo3uT32mwk0th0/export?format=csv&gid=815885868","https://docs.google.com/spreadsheets/d/15CVfl5eyirU20CJBmpEKiz_nKEDlnJo3uT32mwk0th0/export?format=csv&gid=352172531"],
+  /** ツイキャスのユーザID */
+  twicasName: "urah_meshiya",
   /** ヘッダー行 */
   headerRowIndex: 4,
   /** 表示対象列 */
-  displayColumns: ["C", "D", "E", "F"],
+  displayColumns: ["C", "D", "E", "F","L"],
   primaryCol: "D",
   secondaryCol: "E",
   /** 列番号(ソート目的も含む) */
@@ -28,5 +30,7 @@ export const CONFIG = {
   /** URL列 */
   urlSrcCol: "K",
   /** URL表示列 */
-  urlTargetCol: "C"
+  urlTargetCol: "C",
+  /** リクエストボタン表示列 */
+  requestButtonColumn: "L"
 };
