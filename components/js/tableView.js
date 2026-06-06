@@ -82,9 +82,8 @@ export class TableView {
             btn.textContent = "ﾘｸ";
 
             btn.addEventListener("click", async (e) => {
-              alert("ごめん、この機能まだできてない");
-              return;
-
+              //alert("ごめん、この機能まだできてない");
+              //return;
               e.stopPropagation();
 
               const musicInfo =
