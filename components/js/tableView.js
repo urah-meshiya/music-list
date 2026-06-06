@@ -97,8 +97,9 @@ export class TableView {
               e.target.textContent = "ﾘｸ";
               requestBtns?.forEach(btn => { btn.disabled = false;});
             });
-
-            td.appendChild(btn);
+            if (!td.parentElement?.classList.contains('grayout')) {
+              td.appendChild(btn);
+            }
           }
 
           if (isCopyCol) {

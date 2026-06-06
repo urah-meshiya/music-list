@@ -120,6 +120,12 @@ th, td {
   border-radius: 0.5rem;
 }
 
+tr.grayout {
+  .requestBtn {
+    display: none;
+  }
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {
