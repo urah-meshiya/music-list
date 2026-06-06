@@ -4,7 +4,7 @@ export const CONFIG = {
   /** ヘッダー行 */
   headerRowIndex: 4,
   /** 表示対象列 */
-  displayColumns: ["D", "E", "F"],
+  displayColumns: ["D", "E", "F","M"],
   primaryCol: "D",
   secondaryCol: "E",
   /** 列番号(ソート目的も含む) */
@@ -28,5 +28,7 @@ export const CONFIG = {
   /** グレーアウト判定内容 */
   grayoutTargetText: "-",
   /** テーブル拡大率 */
-  tableHeightRatio: 0.75
+  tableHeightRatio: 0.75,
+  /** コピーボタンの対象列 */
+  copyButtonColumn: "M"
 };

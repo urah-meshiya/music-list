@@ -33,4 +33,6 @@ export const CONFIG = {
   urlTargetCol: "C",
   /** リクエストボタン表示列 */
   requestButtonColumn: "L"
+
+  //copyButtonColumn: "M"
 };

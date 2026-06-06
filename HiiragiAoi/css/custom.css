@@ -29,6 +29,15 @@ nav {
   padding-bottom: 10px;
 }
 
+th, td {
+  &:nth-child(3) {
+    max-width: 12px;
+  }
+  &:nth-child(4) {
+    width: 3%;
+  }
+}
+
 .michama {
   width:40px;
   height:40px;
@@ -99,6 +108,15 @@ nav {
   80%  { transform: translate(3px, 2px) rotate(2deg); }
   90%  { transform: translate(-1px, -3px) rotate(-2deg); }
   100% { transform: translate(0, 0) rotate(0); }
+}
+
+.copyBtn {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  border-radius: 0.5rem;
 }
 
 /* Mobile */
