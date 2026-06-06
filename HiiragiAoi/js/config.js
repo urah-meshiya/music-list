@@ -1,10 +1,12 @@
 export const CONFIG = {
   /** Googleスプレッドシート(公開)のURL */
   url: "https://docs.google.com/spreadsheets/d/1xfqn2Nq5r5GXLpOPYnSm8BQsm4Rl1rzkzVc226zIqxM/export?format=csv&gid=815885868",
+  /** ツイキャスのユーザID */
+  twicasName: "Hiragi_Aoi_",
   /** ヘッダー行 */
   headerRowIndex: 4,
   /** 表示対象列 */
-  displayColumns: ["D", "E", "F","M"],
+  displayColumns: ["D", "E", "F", "L", "M"],
   primaryCol: "D",
   secondaryCol: "E",
   /** 列番号(ソート目的も含む) */
@@ -30,5 +32,8 @@ export const CONFIG = {
   /** テーブル拡大率 */
   tableHeightRatio: 0.75,
   /** コピーボタンの対象列 */
-  copyButtonColumn: "M"
+  copyButtonColumn: "L",
+  /** リクエストボタン表示列 */
+  requestButtonColumn: "M"
+
 };
