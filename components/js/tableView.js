@@ -90,8 +90,12 @@ export class TableView {
               if (!confirm(`${musicInfo} をリクエストしますか？`)) {
                 return;
               }
-
+              const requestBtns = document.querySelectorAll(".requestBtn");
+              e.target.textContent = "⏳";
+              requestBtns?.forEach(btn => { btn.disabled = true;});
               post(musicInfo, this.CONFIG);
+              e.target.textContent = "ﾘｸ";
+              requestBtns?.forEach(btn => { btn.disabled = false;});
             });
 
             td.appendChild(btn);

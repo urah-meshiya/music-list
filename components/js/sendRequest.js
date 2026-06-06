@@ -33,8 +33,13 @@ export const post = async (musicInfo, config) => {
         const message = TWITCAS_ERRORS[code] ?? `不明なエラー (code: ${code})`;
         alert(`リク失敗: ${message}`);
       } else {
-        alert(text);
-        console.error(`リク失敗: HTTPエラー ${res.status}`);
+        try {
+          const obj = JSON.parse(text);
+          console.error(`リク失敗: HTTPエラー ${res.status}: ${obj.error}`);
+          alert(obj.error);
+        } catch {
+         alert(text);
+        }
       }
       console.error("HTTPエラー:", res.status, text);
       return;
