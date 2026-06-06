@@ -1,42 +1,3 @@
-/*
-export const post_simple = async (musicInfo, config) => {
-
-  console.log(musicInfo);
-
-  try {
-
-    const formData = new FormData();
-    formData.append('user', config.twicasName);
-    formData.append('comment', musicInfo);
-
-    const response = await fetch(
-      "https://urah-meshiya.xo.je/api/sendRequest.php",
-      {
-        method: "POST",
-        body: formData
-      }
-    );
-
-    const result = await response.json();
-
-    console.log(result);
-
-    return result;
-
-  } catch (err) {
-
-    console.error(err);
-
-    return {
-      success: false,
-      message: err instanceof Error ? err.message : String(err)
-    };
-
-  }
-
-};
-*/
-
 export const post = async (musicInfo, config) => {
 
   try {
@@ -48,7 +9,7 @@ export const post = async (musicInfo, config) => {
       },
       body: JSON.stringify({
         user: config.twicasName,
-        comment: musicInfo
+        comment: `「${musicInfo}」がリクエストされました！`
       })
     });
 
@@ -66,10 +27,10 @@ export const post = async (musicInfo, config) => {
       console.warn("JSONでないレスポンス:", text);
       return;
     }
-
     console.log("成功:", data);
-
+    alert(`リクエストに成功しました！`);
   } catch (err) {
     console.error("通信エラー:", err);
+    alert(`リクエストに失敗しました: （${err}）`);
   }
 }
