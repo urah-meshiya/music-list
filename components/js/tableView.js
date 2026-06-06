@@ -1,4 +1,4 @@
-import { post } from "./sendRequest.js";
+import { sendRequest } from "./sendRequest.js";
 
 export class TableView {
   constructor(CONFIG, dom) {
@@ -93,7 +93,7 @@ export class TableView {
               const requestBtns = document.querySelectorAll(".requestBtn");
               e.target.textContent = "⏳";
               requestBtns?.forEach(btn => { btn.disabled = true;});
-              post(musicInfo, this.CONFIG);
+              await sendRequest(musicInfo, this.CONFIG);
               e.target.textContent = "ﾘｸ";
               requestBtns?.forEach(btn => { btn.disabled = false;});
             });

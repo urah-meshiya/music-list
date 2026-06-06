@@ -10,7 +10,7 @@ const TWITCAS_ERRORS = {
   404:  "配信が見つかりません",
 };
 
-export const post = async (musicInfo, config) => {
+export const sendRequest = async (musicInfo, config) => {
 
   try {
     const res = await fetch("https://sing-request.ponzu946.workers.dev/", {
