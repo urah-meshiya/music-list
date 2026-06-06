@@ -40,7 +40,7 @@ export const post_simple = async (musicInfo, config) => {
 export const post = async (musicInfo, config) => {
 
   try {
-    const res = await fetch("http://sing-request.ponzu946.workers.dev/", {
+    const res = await fetch("https://sing-request.ponzu946.workers.dev/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
