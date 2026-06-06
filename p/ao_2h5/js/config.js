@@ -1,10 +1,12 @@
 export const CONFIG = {
   /** Googleスプレッドシート(公開)のURL */
   url: "https://docs.google.com/spreadsheets/d/1qEAgchkcRZ2Wqxpd0YMfjHbQnqDBYufwK9swauBEae0/export?format=csv&gid=815885868",
+  /** ツイキャスのユーザID */
+  twicasName: "ao_2h5",
   /** ヘッダー行 */
   headerRowIndex: 2,
   /** 表示対象列 */
-  displayColumns: ["D", "E"],
+  displayColumns: ["D", "E", "L"],
   /** 列番号(ソート目的も含む) */
   columnIndex: { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J:9},
   primaryCol: "D",
@@ -32,5 +34,7 @@ export const CONFIG = {
   /** URL表示列 */
   urlTargetCol: "D",
   /** ランダムの制御 */
-  rp_switch: true
+  rp_switch: true,
+  /** リクエストボタン表示列 */
+  requestButtonColumn: "L"
 };
