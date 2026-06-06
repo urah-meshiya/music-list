@@ -1,3 +1,15 @@
+const TWITCAS_ERRORS = {
+  1000: "アクセストークンが無効です",
+  1001: "リクエストの形式が不正です",
+  2000: "API実行回数の上限に達しました",
+  2002: "合言葉配信のためコメントできません",
+  2003: "リクエストが重複しています",
+  2004: "コメント数が上限に達しています",
+  2005: "コメントの投稿権限がありません",
+  403:  "アクセスが拒否されました",
+  404:  "配信が見つかりません",
+};
+
 export const post = async (musicInfo, config) => {
 
   try {
@@ -13,8 +25,16 @@ export const post = async (musicInfo, config) => {
       })
     });
 
-    if (!res.ok) {
+     if (!res.ok) {
       const text = await res.text();
+      const match = text.match(/TWITCAS_ERROR:(\d+)/);
+      if (match) {
+        const code = parseInt(match[1]);
+        const message = TWITCAS_ERRORS[code] ?? `不明なエラー (code: ${code})`;
+        alert(`リク失敗: ${message}`);
+      } else {
+        alert(`リク失敗: HTTPエラー ${res.status}`);
+      }
       console.error("HTTPエラー:", res.status, text);
       return;
     }
