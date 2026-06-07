@@ -58,6 +58,10 @@ th, td {
   &:nth-child(4) {
     width: 8%;
   }
+  
+  &:nth-child(5) {
+    width: 2%;
+  }
 }
 
 tr:nth-child(odd) td {
@@ -101,6 +105,16 @@ tr:nth-child(even) td {
   align-self: center;
   border-radius: 0.5rem;
   background-color: hsl(180, 39%, 45%);
+  color: #fff;
+}
+
+.requestBtn {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  border-radius: 0.5rem;
   color: #fff;
 }
 
