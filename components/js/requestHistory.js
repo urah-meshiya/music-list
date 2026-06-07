@@ -4,7 +4,7 @@ export class RequestHistory {
     this.dom = dom;
 
     this.historyModal = document.createElement("dialog");
-
+    this.historyModal.classList.add("requestHistoryDialog");
     this.historyModal.innerHTML = `
       <iframe
         src="https://sing-request.ponzu946.workers.dev/?user=${this.CONFIG.twicasName ?? "https://www.google.com/"}"
