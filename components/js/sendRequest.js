@@ -25,21 +25,30 @@ export const sendRequest = async (musicInfo, config) => {
       })
     });
 
-     if (!res.ok) {
+    if (!res.ok) {
       const text = await res.text();
-      const match = text.match(/TWITCAS_ERROR:(\d+)/);
-      if (match) {
-        const code = parseInt(match[1]);
+
+      const rateMatch = text.match(/RATE_LIMIT:(\d+)/);
+      if (rateMatch) {
+        alert(`投稿が多すぎます。${rateMatch[1]}秒後に再試行してください`);
+        console.error("レート制限:", text);
+        return;
+      }
+
+      const twitcasMatch = text.match(/TWITCAS_ERROR:(\d+)/);
+      if (twitcasMatch) {
+        const code = parseInt(twitcasMatch[1]);
         const message = TWITCAS_ERRORS[code] ?? `不明なエラー (code: ${code})`;
         alert(`リク失敗: ${message}`);
-      } else {
-        try {
-          const obj = JSON.parse(text);
-          console.error(`リク失敗: HTTPエラー ${res.status}: ${obj.error}`);
-          alert(obj.error);
-        } catch {
-         alert(text);
-        }
+        console.error("TwitCastingエラー:", res.status, text);
+        return;
+      }
+
+      try {
+        const obj = JSON.parse(text);
+        alert(obj.error ?? `リク失敗: HTTPエラー ${res.status}`);
+      } catch {
+        alert(text);
       }
       console.error("HTTPエラー:", res.status, text);
       return;
@@ -54,7 +63,8 @@ export const sendRequest = async (musicInfo, config) => {
       return;
     }
     console.log("成功:", data);
-    alert(`リクエストに成功しました！`);
+    alert("リクエストに成功しました！");
+
   } catch (err) {
     console.error("通信エラー:", err);
     alert(`リクエストに失敗しました: （${err}）`);
