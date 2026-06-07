@@ -79,7 +79,7 @@ th, td {
   }
 }
 
-#openModalBtn  {
+.tab-btn  {
   font-weight: bold;
   background-color: var(--main-color-dark-s);
   padding: 0.6rem;
@@ -133,9 +133,10 @@ tr.grayout {
       background-image: url("../img/bg-mobile.png");
   }
 
-  #openModalBtn {
+  .tab-btn {
     font-size: xx-small;
     padding: 0.2rem 0.5rem;
+    margin: 0 0.1rem;
   }
 
   th, td {

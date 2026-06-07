@@ -3,6 +3,7 @@ import { TableView } from "./tableView.js";
 import { Tab } from "./tab.js";
 import { Search } from "./search.js";
 import { RandomPicker } from "./randomPicker.js";
+import { RequestHistory } from "./requestHistory.js";
 import { Counter } from "./counter.js";
 import { ShootingStars } from "./shootingStars.js";
 
@@ -19,6 +20,7 @@ export class App {
       search: document.querySelector("#search"),
       dialog: document.querySelector("#randomDialog"),
       openDialogBtn: document.querySelector("#openModalBtn"),
+      openHistoryModalBtn: document.querySelector("#openHistoryModalBtn"),
       counter: document.querySelector("#counter"),
       shootingStarBtn: document.querySelector("#onShootingStar")
     };
@@ -51,6 +53,10 @@ export class App {
 
     if (this.dom.dialog && this.dom.openDialogBtn) {
       this.randomPicker = new RandomPicker(this.CONFIG, this.dom);
+    }
+
+    if (this.dom.dialog && this.dom.openHistoryModalBtn) {
+      this.openHistoryModalBtn = new RequestHistory(this.CONFIG, this.dom);
     }
       
     if (this.dom.counter) {
