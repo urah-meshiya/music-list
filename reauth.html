@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Document</title>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+:root {
+    --bg: #f7f7f5;
+    --text: #1f1f1f;
+    --muted: #7a7a7a;
+    --line: #e5e5e5;
+    --code-bg: #efefef;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        Inter,
+        "SF Pro Display",
+        "Segoe UI",
+        "Noto Sans JP",
+        sans-serif;
+    font-size: 16px;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: min(900px, calc(100vw - 48px));
+    margin: 0 auto;
+}
+
+header {
+    padding-top: 80px;
+    padding-bottom: 48px;
+}
+
+.eyebrow {
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: .24em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+#pageTitle {
+    margin: 0;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.06em;
+    font-weight: 800;
+}
+
+#content {
+    padding-bottom: 120px;
+}
+
+#content h1 {
+    display: none;
+}
+
+#content h2 {
+    margin-top: 80px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    font-weight: 750;
+}
+
+#content h3 {
+    margin-top: 48px;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+}
+
+#content h4 {
+    margin-top: 32px;
+    margin-bottom: 8px;
+}
+
+#content p {
+    margin: 1.3em 0;
+}
+
+#content ul,
+#content ol {
+    padding-left: 1.5em;
+}
+
+#content li {
+    margin: .4em 0;
+}
+
+#content a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid #bcbcbc;
+    transition: .15s ease;
+}
+
+#content a:hover {
+    border-color: #111;
+}
+
+#content blockquote {
+    margin: 36px 0;
+    padding: 4px 0 4px 24px;
+    border-left: 2px solid #222;
+    color: var(--muted);
+}
+
+#content hr {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 64px 0;
+}
+
+#content img {
+    display: block;
+    max-width: 100%;
+    margin: 40px auto;
+    border-radius: 14px;
+}
+
+#content pre {
+    overflow-x: auto;
+    padding: 24px;
+    margin: 28px 0;
+    border-radius: 14px;
+    background: var(--code-bg);
+    font-size: .9rem;
+}
+
+#content code {
+    font-family:
+        "JetBrains Mono",
+        Consolas,
+        monospace;
+}
+
+#content p code,
+#content li code,
+#content td code {
+    background: var(--code-bg);
+    padding: .15em .4em;
+    border-radius: 6px;
+}
+
+#content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 36px 0;
+}
+
+#content th {
+    text-align: left;
+    font-weight: 600;
+    padding: 14px 0;
+    border-bottom: 1px solid #111;
+}
+
+#content td {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+footer {
+    color: var(--muted);
+    font-size: .85rem;
+    padding: 32px 0 48px;
+    border-top: 1px solid var(--line);
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: calc(100vw - 32px);
+    }
+
+    header {
+        padding-top: 48px;
+        padding-bottom: 32px;
+    }
+
+    #pageTitle {
+        font-size: 2.5rem;
+    }
+
+    #content h2 {
+        margin-top: 56px;
+        font-size: 1.6rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<header class="container">
+    <div class="eyebrow">DOCUMENTATION</div>
+    <h1 id="pageTitle">Loading...</h1>
+</header>
+
+<main class="container">
+    <article id="content">
+        読み込み中...
+    </article>
+</main>
+
+<footer class="container">
+    created by urah_meshiya
+</footer>
+
+<script>
+(async () => {
+    try {
+        const res = await fetch('./reauth.md');
+
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+
+        const markdown = await res.text();
+
+        const match = markdown.match(/^#\s+(.+)$/m);
+
+        document.title = match
+            ? match[1]
+            : 'Document';
+
+        document.getElementById('pageTitle').textContent =
+            match
+                ? match[1]
+                : 'Document';
+
+        document.getElementById('content').innerHTML =
+            marked.parse(markdown);
+
+    } catch (err) {
+        document.getElementById('pageTitle').textContent =
+            'Error';
+
+        document.getElementById('content').innerHTML = `
+            <p>Markdownの読み込みに失敗しました。</p>
+            <pre>${err.message}</pre>
+        `;
+    }
+})();
+</script>
+
+</body>
+</html>
