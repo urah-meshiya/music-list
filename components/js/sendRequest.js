@@ -21,7 +21,7 @@ export const sendRequest = async (musicInfo, config) => {
       },
       body: JSON.stringify({
         user: config.twicasName,
-        comment: `♪「${musicInfo}」がリクエストされました！`
+        comment: musicInfo
       })
     });
 
