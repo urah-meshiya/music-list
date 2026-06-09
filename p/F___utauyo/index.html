@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>歌える曲リスト</title>
+  <link rel="stylesheet" href="./css/custom.css">
+  <link rel="icon" href="./img/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="header">
+  <p id="title" style="display: none;"></p>
+</div>
+
+<nav>
+  <div id="counter"></div>
+  <div id="search"></div>
+</nav>
+
+<div id="tabArea">
+  <div id="openModalBtn" class="button">ﾗﾝﾀﾞﾑ</div>
+  <div id="openHistoryModalBtn" class="button">リク履歴</div>
+</div>
+
+<div id="tableContainer">
+  <div id="tableSpinner">
+    <div class="spinner" aria-label="nowloading"></div>
+    <p>読込中...</p>
+  </div>
+</div>
+
+<div class="footer"></div>
+
+<dialog id="randomDialog"></dialog>
+
+<script type="module" src="./js/core.js"></script>
+</body>
+</html>
