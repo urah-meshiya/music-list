@@ -26,7 +26,7 @@ body {
 
 .tab {
   background-color: var(--sub);
-  color: #eee !important;
+  /*color: #eee !important;*/
 }
 
 nav {
