@@ -27,6 +27,9 @@ body {
 .tab {
   background-color: var(--sub);
   /*color: #eee !important;*/
+  &.selected {
+    color: #fff;
+  }
 }
 
 nav {
