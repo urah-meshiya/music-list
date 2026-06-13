@@ -124,6 +124,24 @@ tr:nth-child(even) td {
   color: #fff;
 }
 
+.bird {
+  width:30px;
+  height:30px;
+  cursor: pointer;
+  
+  background-image: url("../img/icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  content: "";
+    
+  &.active {
+    animation: shake 0.5s infinite;
+    /*background-image: url("../img/icon_yellow.png");*/
+  }
+}
+
 .spinner {
   background-image: url("../img/icon.png");
   background-size: contain;

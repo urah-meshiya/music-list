@@ -32,5 +32,10 @@ export const CONFIG = {
   /** URL表示列 */
   /*urlTargetCol: "C",*/
   /** リクエストボタン表示列 */
-  requestButtonColumn: "Z"
+  requestButtonColumn: "Z",
+
+  /** 流れ星用画像 */
+  ss_imageUrls: ["./img/bird.png"],
+  /** 流れ星間隔 */
+  ss_interval: 50,
 };
