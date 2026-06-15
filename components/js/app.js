@@ -120,12 +120,11 @@ export class App {
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal">
         <button class="close-btn" id="closeModal">×</button>
-
-        <h2>Information</h2>
-
-        <p>
-          ここに説明やヘルプ内容を表示できます。
-        </p>
+        <h3>Information</h3>
+        <div>
+          歌リクくん (ver.1.2.4) <br>
+          このシステムの詳細は<b><a href="https://urah-meshiya.github.io/music-list/overview.html" target="__blank">こちら</a></b>
+        </div>
       </div>
     </div>
     `

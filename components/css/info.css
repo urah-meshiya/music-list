@@ -2,8 +2,8 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  width: 70px;
-  height: 70px;
+  width: 26px;
+  height: 32px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -11,24 +11,11 @@
   padding: 0;
 }
 
-.info-corner-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #2563eb;
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  transition: background 0.2s;
-}
-
-.info-corner-btn:hover::before {
-  background: #1d4ed8;
-}
-
 .info-corner-btn .material-symbols-outlined {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
-  font-size: 32px;
+  right: 7.5px;
+  bottom: 7.5px;
+  font-size: 24px;
   color: white;
   z-index: 1;
   user-select: none;
@@ -50,7 +37,7 @@
 }
 
 .modal {
-  width: min(500px, 90vw);
+  width: min(400px, 90vw);
   background: white;
   border-radius: 12px;
   padding: 24px;

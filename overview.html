@@ -205,10 +205,22 @@ header {
     border-radius: 6px;
 }
 
-#content table {
+.table-wrapper {
     width: 100%;
-    border-collapse: collapse;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     margin: 36px 0;
+}
+
+.table-wrapper table {
+    margin: 0;
+    min-width: max-content;
+}
+
+#content table {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
 }
 
 #content th {
@@ -219,6 +231,7 @@ header {
 #content td {
     padding: 14px 5px;
     border: 1px solid var(--line);
+    white-space: nowrap;
 }
 
 footer {
@@ -281,6 +294,11 @@ footer {
         margin-top: 56px;
         font-size: 1.6rem;
     }
+
+    #backToTop {
+        right: 16px;
+        bottom: 16px;
+    }
 }
 </style>
 </head>
@@ -334,10 +352,19 @@ footer {
                 ? match[1]
                 : 'Document';
 
-        document.getElementById('content').innerHTML =
-            marked.parse(markdown);
-
         const content = document.getElementById('content');
+
+        content.innerHTML = marked.parse(markdown);
+
+        content.querySelectorAll('table').forEach(table => {
+            const wrapper = document.createElement('div');
+
+            wrapper.className = 'table-wrapper';
+
+            table.parentNode.insertBefore(wrapper, table);
+            wrapper.appendChild(table);
+        });
+
         const toc = document.getElementById('toc');
         const tocContainer = document.getElementById('tocContainer');
 
