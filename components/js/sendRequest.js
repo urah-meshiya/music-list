@@ -21,7 +21,11 @@ export const sendRequest = async (musicInfo, config) => {
       },
       body: JSON.stringify({
         user: config.twicasName,
-        comment: musicInfo
+        comment: musicInfo,
+        rateLimit: {
+          max: config.rateLimitMax,      // 件数上限(件)
+          window: config.rateLimitWindow // 件数上限を適用する時間(分)
+        }
       })
     });
 

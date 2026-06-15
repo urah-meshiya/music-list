@@ -68,7 +68,7 @@ export class App {
     }
 
     this.completed = this.init();
-    //this.addInformation();
+    this.addInformation();
   }
 
   init(index = 0) {
