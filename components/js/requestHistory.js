@@ -5,6 +5,7 @@ export class RequestHistory {
 
     this.historyModal = document.createElement("dialog");
     this.historyModal.classList.add("requestHistoryDialog");
+    this.historyModal.style.width = "80vw"
     this.historyModal.style.border = "1px solid #bbb";
     this.historyModal.style.borderRadius = "0.5rem";
     this.historyModal.innerHTML = `
