@@ -1,6 +1,6 @@
 export const common = {
   /** アプリバージョン */
-  version: "1.2.5",
+  version: "1.2.6",
 
   /** リクエストのデフォルトレート制限(分) */
   rateLimitWindow: 10,
