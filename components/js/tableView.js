@@ -89,6 +89,7 @@ export class TableView {
 
               showRequestModal(
                 `『${musicInfo}』<br> をリクエストしますか？`,
+                this.CONFIG,
                 async () => {
                   const requestBtns = document.querySelectorAll(".requestBtn");
 
