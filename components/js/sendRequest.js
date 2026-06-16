@@ -41,7 +41,7 @@ export const showRequestModal = (message, onRequest) => {
 
     <div class="requestModalResult"></div>
 
-    <div style="display:flex;gap:8px;justify-content:flex-end;">
+    <div style="display:flex;gap:8px;justify-content:space-around;">
       <button class="requestCancelBtn">やめる</button>
       <button class="requestOkBtn">する！</button>
     </div>
@@ -65,7 +65,7 @@ export const showRequestModal = (message, onRequest) => {
     okBtn.disabled = true;
 
     okBtn.innerHTML = `<span class="requestSpinner"></span>`;
-
+    resultEl.innerHTML = `<div style="color:#00c;">送信中･･･ちょっと待ってね</div>`;
     try {
       const result = await onRequest();
       resultEl.innerHTML = `

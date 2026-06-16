@@ -88,7 +88,7 @@ export class TableView {
                 `${row[this.CONFIG.primaryCol]}${row[this.CONFIG.secondaryCol] ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
 
               showRequestModal(
-                `${musicInfo} をリクエストしますか？`,
+                `『${musicInfo}』<br> をリクエストしますか？`,
                 async () => {
                   const requestBtns = document.querySelectorAll(".requestBtn");
 
