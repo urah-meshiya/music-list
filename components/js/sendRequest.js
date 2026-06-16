@@ -10,8 +10,108 @@ const TWITCAS_ERRORS = {
   404:  "配信が見つかりません",
 };
 
-export const sendRequest = async (musicInfo, config) => {
+export const showRequestModal = (message, onRequest) => {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+  `;
 
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    width: min(90vw, 420px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  `;
+
+  modal.innerHTML = `
+    <div style="font-size:16px;line-height:1.6;">
+      ${message}
+    </div>
+
+    <div class="requestModalResult"></div>
+
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="requestCancelBtn">やめる</button>
+      <button class="requestOkBtn">する！</button>
+    </div>
+  `;
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  const resultEl = modal.querySelector(".requestModalResult");
+  const okBtn = modal.querySelector(".requestOkBtn");
+  const cancelBtn = modal.querySelector(".requestCancelBtn");
+
+  const close = () => {
+    overlay.remove();
+  };
+
+  cancelBtn.addEventListener("click", close);
+
+  okBtn.addEventListener("click", async () => {
+    cancelBtn.disabled = true;
+    okBtn.disabled = true;
+
+    okBtn.innerHTML = `<span class="requestSpinner"></span>`;
+
+    try {
+      const result = await onRequest();
+      resultEl.innerHTML = `
+        <div style="color:${result.success ? "#0a7a0a" : "#c00"};">
+          ${result.message}
+        </div>
+      `;
+    } catch (err) {
+      resultEl.innerHTML = `
+        <div style="color:#c00;line-height:1.5;">
+        ${err?.message ?? err ?? "エラーが発生しました"}
+        </div>
+      `;
+    }
+
+    okBtn.textContent = "閉じる";
+    okBtn.disabled = false;
+    cancelBtn.style.display = "none";
+
+    okBtn.onclick = close;
+  });
+
+  if (!document.getElementById("requestModalStyle")) {
+    const style = document.createElement("style");
+    style.id = "requestModalStyle";
+    style.textContent = `
+      .requestSpinner{
+        width:18px;
+        height:18px;
+        border:2px solid #ccc;
+        border-top-color:#333;
+        border-radius:50%;
+        display:inline-block;
+        animation:requestSpin .8s linear infinite;
+      }
+
+      @keyframes requestSpin{
+        from{transform:rotate(0deg);}
+        to{transform:rotate(360deg);}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+};
+
+export const sendRequest = async (musicInfo, config) => {
   try {
     const res = await fetch("https://sing-request.ponzu946.workers.dev/", {
       method: "POST",
@@ -34,43 +134,69 @@ export const sendRequest = async (musicInfo, config) => {
 
       const rateMatch = text.match(/RATE_LIMIT:(\d+)/);
       if (rateMatch) {
-        alert(`投稿が多すぎます。${rateMatch[1]}秒後に再試行してください`);
         console.error("レート制限:", text);
-        return;
+
+        return {
+          success: false,
+          message: `リクエストが多すぎます。${rateMatch[1]}秒後に再試行してください`
+        };
       }
 
       const twitcasMatch = text.match(/TWITCAS_ERROR:(\d+)/);
       if (twitcasMatch) {
-        const code = parseInt(twitcasMatch[1]);
-        const message = TWITCAS_ERRORS[code] ?? `不明なエラー (code: ${code})`;
-        alert(`リク失敗: ${message}`);
+        const code = parseInt(twitcasMatch[1], 10);
+        const message =
+          TWITCAS_ERRORS[code] ?? `不明なエラー (code: ${code})`;
+
         console.error("TwitCastingエラー:", res.status, text);
-        return;
+
+        return {
+          success: false,
+          message: `リク失敗: ${message}`
+        };
       }
 
       try {
         const obj = JSON.parse(text);
-        alert(obj.error ?? `リク失敗: HTTPエラー ${res.status}`);
+
+        return {
+          success: false,
+          message: obj.error ?? `リク失敗: HTTPエラー ${res.status}`
+        };
       } catch {
-        alert(text);
+        return {
+          success: false,
+          message: text
+        };
       }
-      console.error("HTTPエラー:", res.status, text);
-      return;
     }
 
     let data;
+
     try {
       data = await res.json();
     } catch {
-      const text = await res.text();
-      console.warn("JSONでないレスポンス:", text);
-      return;
+      console.warn("JSONでないレスポンス");
+
+      return {
+        success: false,
+        message: "リクエストは成功しましたが、レスポンス形式が不正です"
+      };
     }
+
     console.log("成功:", data);
-    alert("リクエストに成功しました！");
+
+    return {
+      success: true,
+      message: "リクエストに成功しました！"
+    };
 
   } catch (err) {
     console.error("通信エラー:", err);
-    alert(`リクエストに失敗しました: （${err}）`);
+
+    return {
+      success: false,
+      message: `リクエストに失敗しました: ${err}`
+    };
   }
-}
+};

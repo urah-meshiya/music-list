@@ -1,4 +1,4 @@
-import { sendRequest } from "./sendRequest.js";
+import { showRequestModal, sendRequest } from "./sendRequest.js";
 
 export class TableView {
   constructor(CONFIG, dom) {
@@ -87,16 +87,21 @@ export class TableView {
               const musicInfo =
                 `${row[this.CONFIG.primaryCol]}${row[this.CONFIG.secondaryCol] ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
 
-              if (!confirm(`${musicInfo} をリクエストしますか？`)) {
-                return;
-              }
-              const requestBtns = document.querySelectorAll(".requestBtn");
-              e.target.textContent = "⏳";
-              requestBtns?.forEach(btn => { btn.disabled = true;});
-              await sendRequest(musicInfo, this.CONFIG);
-              e.target.textContent = "ﾘｸ";
-              requestBtns?.forEach(btn => { btn.disabled = false;});
+              showRequestModal(
+                `${musicInfo} をリクエストしますか？`,
+                async () => {
+                  const requestBtns = document.querySelectorAll(".requestBtn");
+
+                  requestBtns.forEach(btn => {btn.disabled = true;});
+                  try {
+                    return await sendRequest(musicInfo, this.CONFIG);
+                  } finally {
+                    requestBtns.forEach(btn => {btn.disabled = false;});
+                  }
+                }
+              );
             });
+            // グレーアウト行にはリクボタンを表示しない
             if (!td.parentElement?.classList.contains('grayout')) {
               td.appendChild(btn);
             }
