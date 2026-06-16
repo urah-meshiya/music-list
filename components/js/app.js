@@ -1,3 +1,4 @@
+import { common } from "./common.js";
 import { SheetService } from "./sheetService.js";
 import { TableView } from "./tableView.js";
 import { Tab } from "./tab.js";
@@ -122,7 +123,7 @@ export class App {
         <button class="close-btn" id="closeModal">×</button>
         <h3>Information</h3>
         <div>
-          歌リクくん (ver.1.2.4) <br>
+          歌リクくん (ver.${common.version}) <br>
           このシステムの詳細は<b><a href="https://urah-meshiya.github.io/music-list/overview.html" target="__blank">こちら</a></b>
         </div>
       </div>
