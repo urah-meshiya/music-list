@@ -39,9 +39,9 @@ export const showRequestModal = (message, config, onRequest) => {
   modal.innerHTML = `
     <div style="font-size:16px;line-height:1.6;">
       ${message}<br>
-      <div style="font-size:11px;line-height:1.6;">
+      <span style="font-size:11px;line-height:1.6;">
         (リクエストは${config.rateLimitWindow ?? common.rateLimitWindow}分あたり${config.rateLimitMax ?? common.rateLimitMax}件まで送信できます)
-      </div>
+      </span>
     </div>
 
     <div class="requestModalResult"></div>

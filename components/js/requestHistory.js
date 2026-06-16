@@ -5,6 +5,8 @@ export class RequestHistory {
 
     this.historyModal = document.createElement("dialog");
     this.historyModal.classList.add("requestHistoryDialog");
+    this.historyModal.style.border = "1px solid #bbb";
+    this.historyModal.style.borderRadius = "0.5rem";
     this.historyModal.innerHTML = `
       <iframe
         src="https://sing-request.ponzu946.workers.dev/?user=${this.CONFIG.twicasName ?? "https://www.google.com/"}"
