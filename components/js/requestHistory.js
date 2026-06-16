@@ -9,7 +9,7 @@ export class RequestHistory {
     this.historyModal.style.borderRadius = "0.5rem";
     this.historyModal.innerHTML = `
       <iframe
-        src="https://sing-request.ponzu946.workers.dev/?user=${this.CONFIG.twicasName ?? "https://www.google.com/"}"
+        src="https://sing-request.ponzu946.workers.dev/?user=${this.CONFIG.twicasName ?? "anonymous"}"
         style="width:100%; height:80vh; border:none;"
       ></iframe>
     `;
