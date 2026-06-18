@@ -116,7 +116,7 @@ export const showRequestModal = (message, config, onRequest) => {
   }
 };
 
-export const sendRequest = async (musicInfo, config) => {
+export const sendRequest = async (musicInfo, url = null, config) => {
   try {
     const res = await fetch("https://sing-request.ponzu946.workers.dev/", {
       method: "POST",
@@ -127,6 +127,7 @@ export const sendRequest = async (musicInfo, config) => {
       body: JSON.stringify({
         user: config.twicasName,
         comment: musicInfo,
+        movieUrl: url,
         rateLimit: {
           max: config.rateLimitMax,      // 件数上限(件)
           window: config.rateLimitWindow // 件数上限を適用する時間(分)

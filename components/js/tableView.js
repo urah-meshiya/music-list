@@ -84,8 +84,11 @@ export class TableView {
             btn.addEventListener("click", async (e) => {
               e.stopPropagation();
 
-              const musicInfo =
-                `${row[this.CONFIG.primaryCol]}${row[this.CONFIG.secondaryCol] ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
+              const musicInfo = `${row[this.CONFIG.primaryCol]}${row[this.CONFIG.secondaryCol] ? " / " + row[this.CONFIG.secondaryCol] : ""}`;
+              let movieUrl = null;
+              if (this.CONFIG.urlSrcCol && row[this.CONFIG.urlSrcCol] != "") {
+                movieUrl = row[this.CONFIG.urlSrcCol];
+              }
 
               showRequestModal(
                 `『${musicInfo}』<br> をリクエストしますか？`,
@@ -95,7 +98,7 @@ export class TableView {
 
                   requestBtns.forEach(btn => {btn.disabled = true;});
                   try {
-                    return await sendRequest(musicInfo, this.CONFIG);
+                    return await sendRequest(musicInfo, movieUrl, this.CONFIG);
                   } finally {
                     requestBtns.forEach(btn => {btn.disabled = false;});
                   }
