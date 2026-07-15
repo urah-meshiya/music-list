@@ -12,6 +12,26 @@ const TWITCAS_ERRORS = {
   404:  "配信が見つかりません",
 };
 
+const CLIENT_ID_KEY = "utaRikuClientId";
+
+const getClientId = () => {
+  try {
+    let clientId = localStorage.getItem(CLIENT_ID_KEY);
+    if (!clientId) {
+      clientId = crypto.randomUUID();
+      localStorage.setItem(CLIENT_ID_KEY, clientId);
+    }
+    return clientId;
+  } catch (err) {
+    // セッション中は同じIDを使い回す
+    console.warn("localStorage利用不可:", err);
+    if (!window.__utaRikuClientIdFallback) {
+      window.__utaRikuClientIdFallback = crypto.randomUUID();
+    }
+    return window.__utaRikuClientIdFallback;
+  }
+};
+
 export const showRequestModal = (message, config, onRequest) => {
   const overlay = document.createElement("div");
   overlay.style.cssText = `
@@ -128,6 +148,7 @@ export const sendRequest = async (musicInfo, url = null, config) => {
         user: config.twicasName,
         comment: musicInfo,
         movieUrl: url,
+        clientId: getClientId(),
         rateLimit: {
           max: config.rateLimitMax,      // 件数上限(件)
           window: config.rateLimitWindow // 件数上限を適用する時間(分)
