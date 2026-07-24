@@ -33,20 +33,11 @@ th, td {
   font-size: small;
 
   &:nth-child(1) {
-    width: 4%;
-    text-align: center;
+    width: 60%;
   }
 
   &:nth-child(2) {
     width: 40%;
-  }
-
-  &:nth-child(3) {
-    width: 30%;
-  }
-
-  &:nth-child(4) {
-    width: 8%;
   }
 }
 
@@ -97,29 +88,23 @@ nav {
   color: #fff;
 }
 
+#inputSearch {
+  width: 115px !important;
+}
+
+.copyBtn, .requestBtn {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  border-radius: 0.5rem;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {
       background-image: url("../img/bg.png");
-  }
-
-  th, td {
-    &:nth-child(1) {
-      width: 4%;
-      text-align: center;
-    }
-
-    &:nth-child(2) {
-      width: 80px;
-    }
-
-    &:nth-child(3) {
-      max-width: 80px;
-    }
-
-    &:nth-child(4) {
-      width: 15%;
-    }
   }
 
   .button {
