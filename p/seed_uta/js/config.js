@@ -18,11 +18,17 @@ export const CONFIG = {
   /** ソートタブ(対象列,表示名) */
   sortTab: { F:"曲名順",G:"作者順"},
   /** 検索対象 */
-  searchTargets: { 0:{col:"F", type:"曲名", icon:"🎵", appendCol:"B"},1:{col:"G", type:"ｱｰﾃｨｽﾄ/作品", icon:"👤", appendCol:"E"}},
+  searchTargets: { 0:{col:"F", type:"曲名", icon:"🎵", appendCol:"B"},1:{col:"G", type:"ｱｰﾃｨｽﾄ/作品", icon:"👤", appendCol:"C"}},
   /** 検索種類 */
   matchingConditions : "include",
   /** テーブル拡大率 */
-  tableHeightRatio: 0.88,
+  tableHeightRatio: 0.84,
   /** コピーボタンの対象列 */
-  copyButtonColumn: "Z"
+  copyButtonColumn: "Z",
+
+  /** 流れ星用画像 */
+  ss_imageUrls: ["./img/icon.png","./img/small_star_purple.png","./img/favicon.ico"],
+  /** 流れ星間隔 */
+  ss_interval: 50,
+
 };

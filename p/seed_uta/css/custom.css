@@ -19,6 +19,10 @@ body {
   background-color: #F2F1E6;
 }
 
+#tableContainer, #tabArea, nav {
+  margin: 0 25%;
+}
+
 p {
   font-family: "DotGothic16", sans-serif;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
@@ -82,7 +86,7 @@ nav {
 .button {
   padding: 1px 5px;
   margin-left: 0.5rem;
-  align-self: center;
+  margin: 2.5px;
   border-radius: 0.5rem;
   background-color: rgb(70, 161, 161);
   color: #fff;
@@ -99,6 +103,46 @@ nav {
   margin: 0;
   line-height: 1;
   border-radius: 0.5rem;
+}
+
+
+.seed {
+  width:40px;
+  height:40px;
+  cursor: pointer;
+  
+  background-image: url("../img/icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  content: "";
+    
+  &.active {
+    animation: shake 0.5s infinite;
+    /*background-image: url("../img/icon_yellow.png");*/
+  }
+}
+
+.spinner {
+  background-image: url("../img/icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+  height: 150px;
+  /*width: 200px;*/
+  margin-top: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Mobile */
