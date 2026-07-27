@@ -13,7 +13,7 @@ export class Counter {
 
   setData(data) {
     //this.data = data;
-    this.count.innerHTML = `${data.length}曲を表示中`;
+    this.count.innerHTML = `${data.length}曲 表示中`;
   }
 
 }
