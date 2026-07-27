@@ -4,6 +4,12 @@
 @import "./counter.css";
 @import "./info.css";
 
+/* =========================================================
+   デザイントークン
+   - --main-h / --main-s / --main-l は各ユーザーの custom.css 側で
+     定義される「テーマカラーの素」。ここでは変更しないこと。
+   - それ以外は新規追加のモダンデザイン用トークン。
+   ========================================================= */
 :root {
   --main-color: hsl(var(--main-h), var(--main-s), var(--main-l));
   --main-color-light-s: hsl(var(--main-h), var(--main-s), calc(var(--main-l) + 5%));
@@ -12,20 +18,277 @@
   --main-color-dark-s: hsl(var(--main-h), var(--main-s), calc(var(--main-l) - 5%));
   --main-color-dark-m: hsl(var(--main-h), var(--main-s), calc(var(--main-l) - 10%));
   --main-color-muted: hsl(var(--main-h), calc(var(--main-s) - 30%), var(--main-l));
+
+  /* テーマカラーから自動生成する「濃色アクセント」「ガラス風の下地」 */
+  --accent: hsl(var(--main-h), 55%, 40%);
+  --accent-dark: hsl(var(--main-h), 55%, 32%);
+  --ink: #232323;
+  --ink-soft: rgba(35, 35, 35, 0.68);
+  --surface: hsla(var(--main-h), calc(var(--main-s) * 0.35), 99%, 0.80);
+  --surface-strong: hsla(var(--main-h), calc(var(--main-s) * 0.3), 100%, 0.94);
+  --border-soft: hsla(var(--main-h), 25%, 25%, 0.14);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 30, 0.07), 0 1px 1px rgba(20, 20, 30, 0.04);
+  --shadow-md: 0 8px 24px rgba(20, 20, 30, 0.10), 0 2px 6px rgba(20, 20, 30, 0.05);
+  --shadow-lg: 0 20px 48px rgba(20, 20, 30, 0.20);
+
+  --ease: cubic-bezier(.4, 0, .2, 1);
+  --dur: .18s;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--ink);
+}
+
+/* =========================================================
+   レイアウト（幅・余白）
+   固定%マージンではなく、中央寄せ＋最大幅方式にして
+   タブレットや超ワイド画面でも破綻しないようにする。
+   ========================================================= */
+.header,
+nav,
+.topbar,
+#tabArea,
 #tableContainer {
-  overflow-y: scroll;
-  border: 1px solid #ccc;
+  width: 60%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.75rem 0 0.5rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* タイトルと検索を1行にまとめる、コンパクトな上部バー（template側で採用） */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+  padding: 0.85rem 0 0.55rem;
+}
+
+.topbar-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* =========================================================
+   見出し・本文
+   ========================================================= */
+/* #title の中身(各ページ固有のタイトル文字列)は視覚的には隠し、
+   共通のブランド名だけを表示する。document.title(タブ名)には
+   影響しないので、ページごとのタイトルはそのまま維持される。 */
+#title {
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  white-space: nowrap;
+}
+
+#title::before {
+  content: "Music List";
+  display: inline-block;
+  font-size: clamp(1rem, 0.9rem + 0.6vw, 1.3rem);
+  line-height: 1.2;
+  font-weight: 800;
+  color: var(--main-color-dark-m);
+  letter-spacing: 0.02em;
+}
+
+#tableSpinner p {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--main-color-dark-m);
+  text-align: center;
+  margin: 0.75rem 0 0;
+}
+
+.footer {
+  text-align: center;
+  margin: 1.25rem 0 2rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+/* =========================================================
+   タブエリア（並び替えタブ + 切替／ランダムなどの操作ボタン）
+   ========================================================= */
 #tabArea {
   display: flex;
-  align-items: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  row-gap: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
-#tableContainer, #tabArea, nav {
-  margin: 0 20%;
+button.tab {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-right-width: 0;
+  color: var(--ink-soft);
+  border-radius: 0;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  opacity: 1;
+  box-shadow: none;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+button.tab:first-of-type {
+  border-top-left-radius: var(--radius-pill);
+  border-bottom-left-radius: var(--radius-pill);
+  padding-left: 1.1rem;
+}
+
+button.tab:last-of-type {
+  border-top-right-radius: var(--radius-pill);
+  border-bottom-right-radius: var(--radius-pill);
+  border-right-width: 1px;
+  padding-right: 1.1rem;
+}
+
+button.tab:hover {
+  z-index: 1;
+  transform: none;
+  box-shadow: none;
+  filter: brightness(0.96);
+}
+
+button.tab.selected {
+  z-index: 2;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  opacity: 1;
+}
+
+.tab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+
+.action-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* =========================================================
+   汎用ボタン
+   ========================================================= */
+button,
+.button {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--accent);
+  border: 1px solid var(--accent-dark);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
+    opacity var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+button:hover,
+.button:hover {
+  cursor: pointer;
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+button:active,
+.button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+button:focus-visible,
+.button:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   テーブルカード
+   ========================================================= */
+#tableContainer {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  scrollbar-width: thin;
+  scrollbar-color: var(--main-color-dark-m) transparent;
+}
+
+#tableContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+#tableContainer::-webkit-scrollbar-thumb {
+  background-color: var(--main-color-dark-m);
+  border-radius: var(--radius-pill);
 }
 
 #tableSpinner {
@@ -33,99 +296,81 @@
   overflow-y: hidden;
 }
 
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-p {
-  font-size: x-large;
-  font-weight: bolder;
-  color: var(--main-color-light-s);
-  text-align: center;
-  margin-top: 2rem;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
-
-  tr:nth-child(even) td {
-    background-color: var(--main-color-light-s);
-  }
-
-  tr:nth-child(odd) td {
-    background-color: var(--main-color-light);
-  }
-
-  tr.grayout td{
-    background-color: #999; 
-  }
 }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 6px;
-  font-weight: bolder;
-  color: #222;
+table tr:nth-child(even) td {
+  background-color: var(--main-color-light-s);
+}
+
+table tr:nth-child(odd) td {
+  background-color: var(--main-color-light);
+}
+
+table tr:hover td {
+  filter: brightness(0.97);
+}
+
+table tr.grayout td {
+  background-color: #9a9a9a;
+  color: #eee;
+}
+
+th,
+td {
+  border: 1px solid var(--border-soft);
+  padding: 0.55rem 0.5rem;
+  font-weight: 600;
+  color: var(--ink);
   word-break: break-word;
+}
 
-  &:nth-child(1) {
-    width: 40%;
-  }
+th:nth-child(1),
+td:nth-child(1) {
+  width: 40%;
+}
 
-  &:nth-child(2) {
-    width: 30%;
-  }
+th:nth-child(2),
+td:nth-child(2) {
+  width: 30%;
+}
 
-  &:nth-child(3) {
-    width: 8%;
-  }
+th:nth-child(3),
+td:nth-child(3) {
+  width: 8%;
 }
 
 thead th {
   position: sticky;
   top: 0;
   background: var(--main-color-dark-m);
+  color: #fff;
   z-index: 1;
-  border-top: 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
 }
 
-button, .button {
-  padding: 0.6rem;
-  font-size: 1rem;
-  background-color: var(--main-color-dark-m);
-  border-color: var(--main-color-dark);
-  
-  &.tab {
-    border-radius: 0.75rem 0.75rem 0 0;
-    border-bottom: none;
-    margin-right: 5px;
-    color: #222;
-    opacity: 0.6;
-  
-    &.selected {
-      font-weight: bold;
-      opacity: 1;
-    }
-  }
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.75;
-  }
+.requestBtn,
+.copyBtn {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+a {
+  text-decoration: none;
+  color: var(--accent-dark);
+  transition: color var(--dur) var(--ease);
 }
 
-.footer {
-  text-align:center;
-  margin:10px;
+a:hover {
+  text-decoration: underline;
 }
 
 .info-icon {
@@ -133,6 +378,7 @@ button, .button {
   cursor: pointer;
   font-size: 0.9em;
   opacity: 0.7;
+  transition: opacity var(--dur) var(--ease);
 }
 
 .info-icon:hover {
@@ -141,58 +387,125 @@ button, .button {
 
 #tooltip {
   position: absolute;
-  background: #333;
+  background: rgba(30, 30, 35, 0.94);
   color: #fff;
-  padding: 6px 8px;
-  border-radius: 4px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
   font-size: 12px;
+  line-height: 1.5;
   white-space: pre-wrap;
   max-width: 300px;
+  box-shadow: var(--shadow-md);
   z-index: 1000;
 
   display: none;
-  &.visible {
-    display: block;
+}
+
+#tooltip.visible {
+  display: block;
+}
+
+/* =========================================================
+   ダイアログ共通（ランダム選曲／リク履歴などすべての <dialog>）
+   ========================================================= */
+dialog {
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 0;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+
+  &::backdrop {
+    background: rgba(20, 20, 25, 0.45);
+    backdrop-filter: blur(2px);
   }
 }
 
-
-
-/* Mobile */
-@media (max-width: 768px) {
-  #tableContainer {
-    overflow-x: hidden;
+@starting-style {
+  dialog[open] {
+    opacity: 0;
   }
-  #tableContainer, #tabArea, nav {
-    margin: 0 10%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   モバイル
+   ========================================================= */
+@media (max-width: 768px) {
+  .header,
+  nav,
+  .topbar,
+  #tabArea,
+  #tableContainer {
+    width: 94%;
+  }
+
+  .topbar {
+    padding: 0.6rem 0 0.45rem;
+    gap: 0.4rem;
+  }
+
+  #title::before {
+    font-size: 1rem;
+  }
+
+  .mascot {
+    width: 32px;
+    height: 32px;
   }
 
   td {
-    opacity: 0.9;
+    opacity: 0.95;
   }
-  th, td {
-    padding: 5px;
-    font-size: small;
-    
-    &:nth-child(1) {
+
+  th,
+  td {
+    padding: 0.4rem 0.35rem;
+    font-size: 0.78rem;
+
+    &:nth-child(1){
       width: 80px;
     }
-
     &:nth-child(2) {
       max-width: 80px;
     }
-
     &:nth-child(3) {
       width: 13%;
     }
   }
 
-  p {
-    margin: 0.5rem 0;
+  button,
+  .button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.78rem;
   }
 
-  button {
-    padding: 0.2rem 0.5rem;
-    font-size: xx-small;
+  button.tab {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  .action-label {
+    display: none;
+  }
+
+  .action-btn {
+    padding: 0.4rem 0.55rem;
+  }
+}
+
+/* 極小幅では件数バッジを隠す */
+@media (max-width: 420px) {
+  #counter {
+    display: none;
   }
 }

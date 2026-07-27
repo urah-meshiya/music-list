@@ -24,11 +24,6 @@ p {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-nav {
-  justify-content: flex-end;
-  padding-bottom: 10px;
-}
-
 th, td {
   &:nth-child(3) {
     max-width: 12px;
@@ -83,7 +78,7 @@ th, td {
   font-weight: bold;
   background-color: var(--main-color-dark-s);
   padding: 0.6rem;
-  border-radius: 0.75rem 0.75rem 0 0;
+  border-radius: 0.75rem;
   border-bottom: none;
   margin: 0 10px;
   color: #222;

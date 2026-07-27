@@ -17,5 +17,7 @@ export const CONFIG = {
   /** 検索対象 */
   searchTargets: { 0:{col:"D", type:"ひらがな", icon:"🎵", appendCol:"F"}},
   /** 検索種類 */
-  matchingConditions : "startsWith"
+  matchingConditions : "startsWith",
+  /** テーブル拡大率 */
+  tableHeightRatio: 0.78,
 };

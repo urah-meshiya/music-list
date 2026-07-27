@@ -1,7 +1,22 @@
-#counter {
-  #counterInner {
-    p {
-      font-size: small;
-    }
-  }
+#counter #counterInner {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-strong);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.9rem;
+  box-shadow: var(--shadow-sm);
 }
+
+#counter #counterInner p {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--main-color-dark-m);
+  margin: 0;
+}
+
+/*
+#counter #counterInner p::before {
+  content: "🎵 ";
+}
+*/

@@ -19,10 +19,6 @@ body {
   background-color: #F2F1E6;
 }
 
-#tableContainer, #tabArea, nav {
-  margin: 0 26vw;
-}
-
 nav {
   margin-top: 1vw  !important;
   margin-bottom: 1vw  !important;
@@ -30,7 +26,6 @@ nav {
 
 p {
   font-family: "DotGothic16", sans-serif;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   margin: 0;
 }
 
@@ -193,5 +188,9 @@ a {
   .button {
     padding: 2.5px;
     font-size: xx-small;
+  }
+  button.tab {
+    padding: 0.35rem 0.40rem;
+    font-size: 0.78rem;
   }
 }

@@ -1,44 +1,76 @@
-#randomDialog { 
+#randomDialog {
+  width: min(420px, 88vw);
+}
+
+#randomDialog #randomDialogInner {
+  position: relative;
+  padding: 28px 22px 24px;
+  min-width: 250px;
+  background: var(--surface-strong);
+}
+
+#randomDialog #randomDialogInner #closeDialogBtn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 1rem;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink-soft);
   border: none;
-  border-radius: 0.5rem;
-  width: 80%;
+  box-shadow: none;
+}
 
-  #randomDialogInner {
-    position:relative;
-    padding:20px;
-    min-width:250px;
+#randomDialog #randomDialogInner #closeDialogBtn:hover {
+  background: var(--border-soft);
+  transform: none;
+}
 
-    #closeDialogBtn {
-      position:absolute;
-      right:1.5px;
-      top:1.5px;
-      font-size: medium;
-    }
+#randomDialog #randomDialogInner #copyRandomInfoBtn {
+  position: absolute;
+  right: 22px;
+  top: 168px;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border-radius: var(--radius-pill);
+}
 
-    #copyRandomInfoBtn {
-      position:absolute;
-      right:10px;
-      top:140px;
-    }
+#randomDialog #randomDialogInner #randomDisplay {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  width: 100%;
+  height: 5.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  color: var(--ink);
+}
 
-    #randomDisplay {
-      margin-top:20px;
-      font-size:18px;
-      width: 85%;
-      height: 5rem;
-      background-color: #eee;
-      align-content: center;
-      text-align: center;
-      justify-self: center;
-    }
+#randomDialog #randomDialogInner #randomButtonWrap {
+  margin-top: 20px;
+  text-align: center;
+}
 
-    #randomButtonWrap { 
-      margin-top:20px;
-      text-align:center;
-      button {
-        padding: 10px 40px;
-        font-size: medium;
-      }
-    }
-  }
+#randomDialog #randomDialogInner #randomButtonWrap button {
+  padding: 0.7rem 2.5rem;
+  font-size: 1rem;
+  border-radius: var(--radius-pill);
+}
+
+#randomDialog #randomDialogInner #randomFilterWrap {
+  display: block;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
 }

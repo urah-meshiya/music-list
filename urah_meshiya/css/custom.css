@@ -19,10 +19,6 @@ body {
   background-color: #F2F1E6;
 }
 
-#tableContainer, #tabArea, nav {
-  margin: 0 26vw;
-}
-
 p {
   font-family: "DotGothic16", sans-serif;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
@@ -100,6 +96,7 @@ th, td {
   padding: 1px 5px;
   margin-left: 0.5rem;
   align-self: center;
+  border: none;
   border-radius: 0.5rem;
   background-color: rgb(70, 161, 161);
   color: #fff;
@@ -189,4 +186,9 @@ a {
     padding: 2.5px;
     font-size: xx-small;
   }
+  
+  button.tab {
+    padding: 0.25rem;
+  }
+  
 }

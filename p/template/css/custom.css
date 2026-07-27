@@ -1,62 +1,42 @@
 @import "../../../components/css/app.css";
 
+/* =========================================================
+   ユーザーごとのカスタマイズはここだけ触ればOK。
+   全体のレイアウト・共通コンポーネントのデザインは
+   components/css/app.css 側で管理している。
+   ========================================================= */
+
 :root {
-  --main: hsl(226, 80%, 90%);
+  /* テーマカラー（色相・彩度・明度）。この3つを変えるだけで
+     ボタン・タブ・テーブルの縞模様などが自動的に配色される */
   --main-h: 226;
-  --main-s: 80%;
-  --main-l: 90%;
+  --main-s: 70%;
+  --main-l: 88%;
 }
 
 body {
-  font-family: 'Yomogi', sans-serif;
-  margin: 0; 
+  font-family: "Zen Maru Gothic", sans-serif;
+  margin: 0;
 
   background-image: url("../img/bg.png");
-  /*background-repeat: no-repeat;*/
-  background-position: 0;
+  background-position: center;
   background-size: cover;
+  background-attachment: fixed;
 
-  background-color: #F2F1E6;
+  /* テーマカラーに合わせた背景色（bg.png が透けて見える下地） */
+  background-color: hsl(var(--main-h), 30%, 96%);
 }
 
-p {
-  font-family: "DotGothic16", sans-serif;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+/* マスコット画像（未使用ならHTML側ごと削除して構わない） */
+.mascot {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
 
-
-th, td {
-  border: 1px solid #ccc;
-  padding: 4px;
-  font-weight: bolder;
-  color: #222;
-  word-break: break-word;
-  font-size: small;
-
-  &:nth-child(1) {
-    width: 4%;
-    text-align: center;
-  }
-
-  &:nth-child(2) {
-    width: 40%;
-  }
-
-  &:nth-child(3) {
-    width: 30%;
-  }
-
-  &:nth-child(4) {
-    width: 8%;
-  }
-}
-
-.obake {
-  width:50px;
-  height:50px;
-  &:hover, &:active {
-    animation: shake 0.4s infinite;
-  }
+.mascot:hover,
+.mascot:active {
+  animation: shake 0.4s infinite;
 }
 
 @keyframes shake {
@@ -73,56 +53,50 @@ th, td {
   100% { transform: translate(0, 0) rotate(0); }
 }
 
-.tooltip {
-  position: fixed;
-  display: none;
-  max-width: 240px;
-  padding: 8px 10px;
-  font-size: 13px;
-  background: rgba(0, 0, 0, 0.9);
-  color: #fff;
-  border-radius: 6px;
-  pointer-events: none;
-  z-index: 9999;
-  white-space: pre-line;
+/* 表示列の幅（displayColumns: ["C","D","E","F"] の4列構成に合わせた例） */
+th:nth-child(1),
+td:nth-child(1) {
+  width: 6%;
+  text-align: center;
 }
 
-.button {
-  padding: 1px 5px;
-  margin-left: 0.5rem;
-  align-self: center;
-  border-radius: 0.5rem;
-  background-color: rgb(70, 161, 161);
-  color: #fff;
+th:nth-child(2),
+td:nth-child(2) {
+  width: 42%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 34%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+  width: 12%;
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  body {
-      background-image: url("../img/bg.png");
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 10%;
+    text-align: center;
   }
 
-  th, td {
-    &:nth-child(1) {
-      width: 4%;
-      text-align: center;
-    }
-
-    &:nth-child(2) {
-      width: 80px;
-    }
-
-    &:nth-child(3) {
-      max-width: 80px;
-    }
-
-    &:nth-child(4) {
-      width: 15%;
-    }
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: auto;
+    letter-spacing: -0.2px;
   }
 
-  .button {
-    padding: 2.5px;
-    font-size: xx-small;
+  th:nth-child(3),
+  td:nth-child(3) {
+    max-width: 96px;
+    letter-spacing: -0.4px;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 18%;
   }
 }

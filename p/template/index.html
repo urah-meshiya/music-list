@@ -1,33 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>歌える曲リスト</title>
   <link rel="stylesheet" href="./css/custom.css">
   <link rel="icon" href="./img/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
+  <!-- 好みのフォントに差し替え可。custom.css の font-family も合わせて変更すること -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<div class="header">
-  <p id="title"></p>
-  <!--img src="./img/icon.png" class="imgClass" alt=""-->
-</div>
 
-<!--nav>
-  <div id="search"></div>
-</nav-->
+<div class="topbar">
+  <div class="topbar-title">
+    <!-- マスコット画像。不要なら img ごと削除してOK -->
+    <img src="./img/icon.png" class="mascot" alt="マスコットキャラクター">
+    <!-- 画面上の表示は常に「Music List」固定（CSS側で描画）。
+         タブに出る文字列(document.title)は CONFIG.title のまま維持される -->
+    <p id="title"></p>
+  </div>
+  <div class="topbar-tools">
+    <div id="counter"></div>
+    <div id="search"></div>
+  </div>
+</div>
 
 <div id="tabArea">
-  <!--div id="openModalBtn" class="button">ﾗﾝﾀﾞﾑ</div-->
+  <!-- ここには曲順・作者順などの並び替えタブが JS によって自動挿入される -->
+  <!-- (連結したピル型のボタングループとして表示される) -->
+
+  <!-- 「切替」「ランダム」など操作系ボタンのまとめ。右寄せで並び替えタブと区別される -->
+  <div class="tab-actions">
+    <!-- 表示ページの切替を使わない場合はこの div ごと削除 -->
+    <div id="pagingBtn" class="button action-btn" title="表示切替">
+      <span class="action-icon">⇄</span><span class="action-label">切替</span>
+    </div>
+    <div id="openModalBtn" class="button action-btn" title="ランダム選曲">
+      <span class="action-icon">🎲</span><span class="action-label">ランダム</span>
+    </div>
+  </div>
 </div>
 
-<div id="tableContainer"></div>
+<div id="tableContainer">
+  <div id="tableSpinner">
+    <div class="spinner" aria-label="nowloading"></div>
+    <p>読込中...</p>
+  </div>
+</div>
 
 <div class="footer"></div>
 
-<!--dialog id="randomDialog"></dialog-->
+<dialog id="randomDialog"></dialog>
 
 <script type="module" src="./js/core.js"></script>
 </body>

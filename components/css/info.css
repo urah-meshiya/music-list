@@ -1,23 +1,30 @@
 .info-corner-btn {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 26px;
-  height: 32px;
+  right: 14px;
+  bottom: 14px;
+  width: 2.6rem;
+  height: 2.6rem;
   border: none;
-  background: transparent;
+  border-radius: var(--radius-pill);
+  background: var(--main-color-dark-m);
+  box-shadow: var(--shadow-md);
   cursor: pointer;
   z-index: 1000;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.info-corner-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .info-corner-btn .material-symbols-outlined {
-  position: absolute;
-  right: 7.5px;
-  bottom: 7.5px;
-  font-size: 24px;
-  color: white;
-  z-index: 1;
+  font-size: 22px;
+  color: #fff;
   user-select: none;
   pointer-events: none;
 }
@@ -25,7 +32,8 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(20, 20, 25, 0.45);
+  backdrop-filter: blur(2px);
   display: none;
   align-items: center;
   justify-content: center;
@@ -38,19 +46,37 @@
 
 .modal {
   width: min(400px, 90vw);
-  background: white;
-  border-radius: 12px;
+  background: var(--surface-strong);
+  border-radius: var(--radius-lg);
   padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   position: relative;
+  color: var(--ink);
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: var(--main-color-dark-m);
 }
 
 .close-btn {
   position: absolute;
   top: 10px;
   right: 10px;
+  width: 2rem;
+  height: 2rem;
   border: none;
   background: transparent;
+  color: var(--ink-soft);
   font-size: 24px;
+  line-height: 1;
+  padding: 0;
   cursor: pointer;
+  box-shadow: none;
+}
+
+.close-btn:hover {
+  background: var(--border-soft);
+  border-radius: var(--radius-pill);
+  transform: none;
 }

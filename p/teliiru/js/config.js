@@ -22,7 +22,7 @@ export const CONFIG = {
   /** 検索種類 */
   matchingConditions : "include",
   /** テーブル拡大率 */
-  tableHeightRatio: 0.88,
+  tableHeightRatio: 0.82,
   /** 情報アイコンを出す列 */
   infoIconCol: "D",
   /** 情報アイコンホバー時の情報ソース列 */
