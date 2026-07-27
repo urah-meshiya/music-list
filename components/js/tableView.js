@@ -178,13 +178,10 @@ export class TableView {
 
               this.tooltip.textContent = row[this.CONFIG.infoSrcCol];
 
-              const rect = icon.getBoundingClientRect();
-
-              this.tooltip.style.left =
-                rect.left + window.scrollX + "px";
-
-              this.tooltip.style.top =
-                rect.bottom + window.scrollY + "px";
+              const iconRect = icon.getBoundingClientRect();
+              const containerRect = this.dom.tableContainer.getBoundingClientRect();
+              this.tooltip.style.left = (iconRect.left - containerRect.left + this.dom.tableContainer.scrollLeft) + "px";
+              this.tooltip.style.top = (iconRect.bottom - containerRect.top + this.dom.tableContainer.scrollTop) + "px";
 
               this.tooltip.classList.add("visible");
             });

@@ -56,20 +56,6 @@ th, td {
   }
 }
 
-.tooltip {
-  position: fixed;
-  display: none;
-  max-width: 240px;
-  padding: 8px 10px;
-  font-size: 13px;
-  background: rgba(0, 0, 0, 0.9);
-  color: #fff;
-  border-radius: 6px;
-  pointer-events: none;
-  z-index: 9999;
-  white-space: pre-line;
-}
-
 .button {
   padding: 1px 5px;
   margin-left: 0.5rem;

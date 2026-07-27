@@ -397,13 +397,14 @@ a:hover {
   max-width: 300px;
   box-shadow: var(--shadow-md);
   z-index: 1000;
-
   display: none;
+  
+  &.visible {
+    display: block;
+  }
 }
 
-#tooltip.visible {
-  display: block;
-}
+
 
 /* =========================================================
    ダイアログ共通（ランダム選曲／リク履歴などすべての <dialog>）

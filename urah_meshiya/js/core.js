@@ -5,6 +5,7 @@ const app = new App(CONFIG);
 await app.completed;
 
 // ユーザ毎のカスタムJS
+/*
 const th = app.dom.tableContainer.querySelector("thead th:first-child");
 const tooltip = document.querySelector("#tooltip");
 const DESCRIPTION = "＜オススメ度＞\n×＜▲＜(空欄)＜○＜◎＜★";
@@ -43,3 +44,4 @@ th.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", hide);
+*/
