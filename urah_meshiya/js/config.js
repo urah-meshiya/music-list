@@ -32,7 +32,9 @@ export const CONFIG = {
   /** URL表示列 */
   urlTargetCol: "C",
   /** リクエストボタン表示列 */
-  requestButtonColumn: "L"
+  requestButtonColumn: "L",
+  /** オススメ列用tooltipメッセージ */
+  theadDescription: "＜オススメ度＞\n×＜▲＜(空欄)＜○＜◎＜★"
 
   //copyButtonColumn: "M"
 };

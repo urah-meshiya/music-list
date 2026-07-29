@@ -26,6 +26,8 @@ export class TableView {
     window.addEventListener("resize", () => {
       this.updateHeight();
     });
+
+    this.setupHeaderDescription();
   }
 
   updateHeight() {
@@ -35,6 +37,47 @@ export class TableView {
     this.dom.tableContainer.style.height = calculatedHeight;
     this.dom.tableContainer.style.minHeight = calculatedHeight;
     this.dom.tableContainer.style.maxHeight = calculatedHeight;
+  }
+
+  // ツールチップを表示する共通処理（対象要素の直下に配置）
+  showTooltipFor(targetEl, text) {
+    this.tooltip.textContent = text;
+
+    const targetRect = targetEl.getBoundingClientRect();
+    const containerRect = this.dom.tableContainer.getBoundingClientRect();
+    this.tooltip.style.left = (targetRect.left - containerRect.left + this.dom.tableContainer.scrollLeft + 20) + "px";
+    this.tooltip.style.top = (targetRect.bottom - containerRect.top + this.dom.tableContainer.scrollTop - 20) + "px";
+
+    this.tooltip.classList.add("visible");
+  }
+
+  // thead th:first-child にマウスオーバー/クリックで説明を表示（CONFIG.theadDescription がある場合のみ）
+  setupHeaderDescription() {
+    if (!this.CONFIG.theadDescription) return;
+
+    const getFirstTh = () => this.thead.querySelector("th:first-child");
+
+    // PC: ホバーで表示/非表示
+    this.thead.addEventListener("mouseover", (e) => {
+      const th = e.target.closest("th");
+      if (!th || th !== getFirstTh()) return;
+      this.showTooltipFor(th, this.CONFIG.theadDescription);
+    });
+
+    this.thead.addEventListener("mouseout", (e) => {
+      const th = e.target.closest("th");
+      if (!th || th !== getFirstTh()) return;
+      if (th.contains(e.relatedTarget)) return;
+      this.tooltip.classList.remove("visible");
+    });
+
+    // スマホ/タップ対応: クリックで表示（外側クリックでの非表示は既存のdocumentリスナーに委任）
+    this.thead.addEventListener("click", (e) => {
+      const th = e.target.closest("th");
+      if (!th || th !== getFirstTh()) return;
+      e.stopPropagation();
+      this.showTooltipFor(th, this.CONFIG.theadDescription);
+    });
   }
 
   render(header, data) {
@@ -173,17 +216,20 @@ export class TableView {
             icon.classList.add("info-icon");
             icon.textContent = "ⓘ";
 
+            // PC: ホバーで表示/非表示
+            icon.addEventListener("mouseover", (e) => {
+              this.showTooltipFor(icon, row[this.CONFIG.infoSrcCol]);
+            });
+
+            icon.addEventListener("mouseout", (e) => {
+              if (icon.contains(e.relatedTarget)) return;
+              this.tooltip.classList.remove("visible");
+            });
+
+            // スマホ/タップ対応: クリックで表示
             icon.addEventListener("click", (e) => {
               e.stopPropagation();
-
-              this.tooltip.textContent = row[this.CONFIG.infoSrcCol];
-
-              const iconRect = icon.getBoundingClientRect();
-              const containerRect = this.dom.tableContainer.getBoundingClientRect();
-              this.tooltip.style.left = (iconRect.left - containerRect.left + this.dom.tableContainer.scrollLeft) + "px";
-              this.tooltip.style.top = (iconRect.bottom - containerRect.top + this.dom.tableContainer.scrollTop) + "px";
-
-              this.tooltip.classList.add("visible");
+              this.showTooltipFor(icon, row[this.CONFIG.infoSrcCol]);
             });
 
             td.appendChild(icon);

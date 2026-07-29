@@ -34,6 +34,9 @@ export const CONFIG = {
   /** リクエストボタン表示列 */
   requestButtonColumn: "Z",
 
+  /** オススメ列用tooltipメッセージ */
+  theadDescription: "＜オススメ度＞\n×＜▲＜(空欄)＜○＜◎＜★",
+
   /** 流れ星用画像 */
   ss_imageUrls: ["./img/bird.png"],
   /** 流れ星間隔 */

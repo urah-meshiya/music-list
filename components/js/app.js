@@ -23,12 +23,13 @@ export class App {
       openDialogBtn: document.querySelector("#openModalBtn"),
       openHistoryModalBtn: document.querySelector("#openHistoryModalBtn"),
       counter: document.querySelector("#counter"),
-      shootingStarBtn: document.querySelector("#onShootingStar")
+      shootingStarBtn: document.querySelector("#onShootingStar"),
+      pagingBtn: document.querySelector("#pagingBtn")
     };
 
     this.sheetService = new SheetService(this.CONFIG);
     this.sheetService.addEventListener("execPaging", (e) => {
-      this.init(e.detail);
+      this.handlePaging(e.detail);
     });
 
     if (this.dom.tableContainer) {
@@ -96,6 +97,89 @@ export class App {
         document.querySelector("#tableSpinner")?.remove();
       }
     })();
+  }
+
+  // 切替ボタン押下時の一連の処理（ローディング表示 → 再取得 → ソートリセット）
+  async handlePaging(index) {
+    // 連打対策：処理中は以降の呼び出しを無視
+    if (this._isPaging) return;
+    this._isPaging = true;
+
+    const btn = this.dom.pagingBtn;
+    let originalHtml;
+
+    if (btn) {
+      originalHtml = btn.innerHTML;
+
+      // 差し替え前の横幅を固定しておく（スピナーだけになって縮むのを防ぐ）
+      const rect = btn.getBoundingClientRect();
+      btn.style.width = `${rect.width}px`;
+
+      // #pagingBtnはdiv要素のためdisabledは効かない → pointer-eventsでクリックを物理的にブロック
+      btn.classList.add("is-disabled");
+      btn.innerHTML = `<span class="btn-spinner"></span>`;
+    }
+
+    this.showTableSpinner();
+
+    try {
+      await this.init(index);
+    } finally {
+      this.hideTableSpinner();
+
+      if (btn) {
+        btn.classList.remove("is-disabled");
+        btn.innerHTML = originalHtml;
+        btn.style.width = ""; // 固定幅解除、元のautoレイアウトに戻す
+      }
+
+      // ソートタブの選択を1番左に戻す
+      this.tab?.resetToFirst();
+
+      this._isPaging = false;
+    }
+  }
+
+  showTableSpinner() {
+    if (!this.dom.tableContainer) return;
+
+    // 切替元のテーブルを隠す
+    this.dom.tableContainer.classList.add("loading");
+
+    if (document.querySelector("#tableSpinner")) return;
+
+    this.dom.tableContainer.insertAdjacentHTML(
+      "afterbegin",
+      `
+      <div id="tableSpinner">
+        <div class="spinner" aria-label="nowloading"></div>
+        <p>読込中...</p>
+      </div>
+      `
+    );
+  }
+
+  showTableSpinner() {
+    if (!this.dom.tableContainer) return;
+
+    // 切替元のテーブルを隠す
+    this.dom.tableContainer.classList.add("loading");
+
+    if (document.querySelector("#tableSpinner")) return;
+
+    this.dom.tableContainer.insertAdjacentHTML(
+      "afterbegin",
+      `
+      <div id="tableSpinner">
+        <div class="spinner" aria-label="nowloading"></div>
+        <p>読込中...</p>
+      </div>
+      `
+    );
+  }
+
+  hideTableSpinner() {
+    this.dom.tableContainer?.classList.remove("loading");
   }
 
   setupTitle() {

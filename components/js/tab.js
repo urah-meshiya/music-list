@@ -44,6 +44,16 @@ export class Tab extends EventTarget {
     this.dispatchEvent(new CustomEvent("execSort", {detail: this.data}));
   }
 
+  // ソートタブの選択を1番左（1つ目の要素）に戻す
+  resetToFirst() {
+    const firstTab = this.dom.tabArea.querySelector(".tab");
+    if (!firstTab) return;
+
+    this.dom.tabs.forEach(b => b.classList.remove("selected"));
+    firstTab.classList.add("selected");
+    this.sortBy(firstTab.dataset.sortBy);
+  }
+
   compare(a, b) {
     if (!a && !b) return 0;
     if (!a) return 1;
