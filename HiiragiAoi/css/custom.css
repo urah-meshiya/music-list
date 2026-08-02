@@ -26,6 +26,7 @@ p {
 
 th, td {
   &:nth-child(3) {
+    min-width: 50px;
     max-width: 12px;
   }
   &:nth-child(4),&:nth-child(5) {
@@ -146,7 +147,7 @@ tr.grayout {
     }
 
     &:nth-child(3) {
-      max-width: 80px;
+      min-width: 30px;
       letter-spacing: -1.5px;
     }
   }

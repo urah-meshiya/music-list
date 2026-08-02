@@ -278,12 +278,12 @@ button:focus-visible,
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  scrollbar-width: thin;
+  scrollbar-width: auto;
   scrollbar-color: var(--main-color-dark-m) transparent;
 }
 
 #tableContainer::-webkit-scrollbar {
-  width: 8px;
+  width: 508px;
 }
 
 #tableContainer::-webkit-scrollbar-thumb {

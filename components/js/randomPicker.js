@@ -33,6 +33,7 @@ export class RandomPicker {
     this.interval = null;
     this.running = false;
     this.data = [];
+    this.copyText = "";
 
     this.setEventListener();
   }
@@ -60,7 +61,7 @@ export class RandomPicker {
     this.data = data;
   }
 
-  start() {
+start() {
     if (this.running) return;
 
     this.running = true;
@@ -71,7 +72,6 @@ export class RandomPicker {
 
       let targetData = this.data;
 
-      // URLなしのみフィルタ
       if (
         this.CONFIG.rp_switch &&
         this.filterCheckbox &&
@@ -83,12 +83,10 @@ export class RandomPicker {
         });
       }
 
-      // 対象0件なら何もしない
       if (!targetData.length) return;
 
       const row = targetData[Math.floor(Math.random() * targetData.length)];
 
-      // 表示内容クリア
       this.displayEl.innerHTML = "";
 
       const primary = this.CONFIG.primaryCol
@@ -104,6 +102,8 @@ export class RandomPicker {
           ? row[this.CONFIG.urlSrcCol]
           : null;
 
+      this.copyText = secondary ? `${primary} / ${secondary}` : `${primary ?? ""}`;
+
       let primaryEl;
 
       if (url) {
@@ -113,9 +113,7 @@ export class RandomPicker {
         a.target = "_blank";
         a.style.color = "inherit";
         a.style.textDecoration = "underline";
-
         primaryEl = a;
-
       } else {
         const span = document.createElement("span");
         span.textContent = primary ?? "";
@@ -124,7 +122,6 @@ export class RandomPicker {
 
       this.displayEl.appendChild(primaryEl);
 
-      // secondaryがある場合
       if (secondary) {
         const sep = document.createTextNode(" / ");
         const secondaryEl = document.createElement("span");
@@ -154,12 +151,10 @@ export class RandomPicker {
   copyInfo() {
     if (navigator.clipboard && window.isSecureContext) {
 
-      navigator.clipboard.writeText(this.displayEl.innerText)
+      navigator.clipboard.writeText(this.copyText) // ★ innerText → copyText に変更
       .then(() => {
         const originalText = this.copyBtn.innerHTML;
-
         this.copyBtn.innerHTML = "✓";
-
         setTimeout(() => {
           this.copyBtn.innerHTML = originalText;
         }, 2000);
