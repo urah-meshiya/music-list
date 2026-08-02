@@ -276,11 +276,11 @@ button:focus-visible,
   /*backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);*/
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  /*border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);*/
   scrollbar-width: auto;
   scrollbar-color: var(--main-color-dark-m) transparent;
-  min-height: 50vh;
+  /*min-height: 50vh;*/
 }
 
 #tableContainer::-webkit-scrollbar {
