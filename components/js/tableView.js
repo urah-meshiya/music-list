@@ -1,4 +1,4 @@
-import { showRequestModal, sendRequest } from "./sendRequest.js";
+import { showRequestModal, sendRequest } from "./sendRequest.js?v=142";
 
 export class TableView {
   constructor(CONFIG, dom) {
