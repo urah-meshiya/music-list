@@ -1,12 +1,12 @@
-import { common } from "./common.js?v=142";
-import { SheetService } from "./sheetService.js?v=142";
-import { TableView } from "./tableView.js?v=142";
-import { Tab } from "./tab.js?v=142";
-import { Search } from "./search.js?v=142";
-import { RandomPicker } from "./randomPicker.js?v=142";
-import { RequestHistory } from "./requestHistory.js?v=142";
-import { Counter } from "./counter.js?v=142";
-import { ShootingStars } from "./shootingStars.js?v=142";
+import { common } from "./common.js";
+import { SheetService } from "./sheetService.js";
+import { TableView } from "./tableView.js";
+import { Tab } from "./tab.js";
+import { Search } from "./search.js";
+import { RandomPicker } from "./randomPicker.js";
+import { RequestHistory } from "./requestHistory.js";
+import { Counter } from "./counter.js";
+import { ShootingStars } from "./shootingStars.js";
 
 export class App {
   constructor(CONFIG) {
