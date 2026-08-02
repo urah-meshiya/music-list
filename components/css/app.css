@@ -356,7 +356,7 @@ td:nth-child(3) {
 }
 
 thead th {
-  /*position: sticky;*/
+  position: sticky;
   top: 0;
   background: var(--main-color-dark-m);
   color: #fff;
