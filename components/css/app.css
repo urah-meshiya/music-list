@@ -280,6 +280,7 @@ button:focus-visible,
   box-shadow: var(--shadow-md);
   scrollbar-width: auto;
   scrollbar-color: var(--main-color-dark-m) transparent;
+  min-height: 50vh;
 }
 
 #tableContainer::-webkit-scrollbar {

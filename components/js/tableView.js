@@ -27,12 +27,24 @@ export class TableView {
       this.updateHeight();
     });
 
-    this.setupHeaderDescription();
+    // WebViewのビューポート確定が遅れるケースの保険
+    window.addEventListener("load", () => this.updateHeight());
+    setTimeout(() => this.updateHeight(), 300);
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", () => this.updateHeight());
+    }
   }
 
   updateHeight() {
-    const calculatedHeight =
-      window.innerHeight * (this.CONFIG.tableHeightRatio ?? 0.70) + "px";
+    const vh =
+      window.visualViewport?.height ||
+      document.documentElement.clientHeight ||
+      window.innerHeight;
+
+    if (!vh || vh < 200) { return;}
+
+    const calculatedHeight = vh * (this.CONFIG.tableHeightRatio ?? 0.70) + "px";
 
     this.dom.tableContainer.style.height = calculatedHeight;
     this.dom.tableContainer.style.minHeight = calculatedHeight;
