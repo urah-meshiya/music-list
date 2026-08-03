@@ -34,6 +34,7 @@ export class App {
 
     if (this.dom.tableContainer) {
       this.tableView = new TableView(this.CONFIG, this.dom);
+      this.tableView.setupHeaderDescription();
     }
     
     if (this.dom.tabArea) {
