@@ -1,3 +1,5 @@
+import { showRequestModal, sendRequest } from "./sendRequest.js";
+
 export class RandomPicker {
   constructor(CONFIG, dom) {
     this.CONFIG = CONFIG;
@@ -12,10 +14,16 @@ export class RandomPicker {
       `
       : "";
 
+    const requestBtnHtml = this.CONFIG.requestButtonColumn
+      ? `<button id="requestRandomBtn" class="requestBtn" disabled>ﾘｸ</button>`
+      : "";
+
     this.dom.dialog.innerHTML = `
       <div id="randomDialogInner" >
         <button id="closeDialogBtn">×</button>
-        <button id="copyRandomInfoBtn">📋</button>
+        <p>ランダム選曲</p>
+        ${requestBtnHtml}
+        <button id="copyRandomInfoBtn" disabled>📋</button>
         <div id="randomDisplay">${this.CONFIG.randomDisplayDefaultText ?? "スタートをおしてね"}</div>
 
         <div id="randomButtonWrap">
@@ -28,12 +36,14 @@ export class RandomPicker {
     this.displayEl = this.dom.dialog.querySelector("#randomDisplay");
     this.toggleBtn = this.dom.dialog.querySelector("#toggleRandomBtn");
     this.copyBtn = this.dom.dialog.querySelector("#copyRandomInfoBtn");
+    this.requestBtn = this.dom.dialog.querySelector("#requestRandomBtn");
     this.filterCheckbox = this.dom.dialog.querySelector("#randomFilterCheckbox");
 
     this.interval = null;
     this.running = false;
     this.data = [];
     this.copyText = "";
+    this.currentRow = null;
 
     this.setEventListener();
   }
@@ -55,6 +65,10 @@ export class RandomPicker {
     this.copyBtn.addEventListener("click", () => {
       this.copyInfo();
     });
+
+    this.requestBtn?.addEventListener("click", () => {
+      this.requestInfo();
+    });
   }
 
   setData(data) {
@@ -66,6 +80,8 @@ start() {
 
     this.running = true;
     this.toggleBtn.textContent = this.CONFIG.stopRandomText ?? "ストップ";
+    this.copyBtn.disabled = true;
+    this.requestBtn && (this.requestBtn.disabled = true);
 
     this.interval = setInterval(() => {
       if (!this.data.length) return;
@@ -103,6 +119,7 @@ start() {
           : null;
 
       this.copyText = secondary ? `${primary} / ${secondary}` : `${primary ?? ""}`;
+      this.currentRow = { primary, secondary, url };
 
       let primaryEl;
 
@@ -142,6 +159,11 @@ start() {
       clearInterval(this.interval);
       this.interval = null;
     }
+
+    if (this.currentRow) {
+      this.copyBtn.disabled = false;
+      this.requestBtn && (this.requestBtn.disabled = false);
+    }
   }
 
   toggle() {
@@ -149,6 +171,8 @@ start() {
   }
 
   copyInfo() {
+    if (!this.copyText) return;
+
     if (navigator.clipboard && window.isSecureContext) {
 
       navigator.clipboard.writeText(this.copyText) // ★ innerText → copyText に変更
@@ -166,5 +190,25 @@ start() {
     } else {
       alert("コピー失敗。手動でコピーしてね。");
     }
+  }
+
+  requestInfo() {
+    if (!this.currentRow) return;
+
+    const { primary, secondary, url } = this.currentRow;
+    const musicInfo = secondary ? `${primary} / ${secondary}` : `${primary ?? ""}`;
+
+    showRequestModal(
+      `『${musicInfo}』<br> をリクエストしますか？`,
+      this.CONFIG,
+      async () => {
+        this.requestBtn && (this.requestBtn.disabled = true);
+        try {
+          return await sendRequest(musicInfo, url, this.CONFIG);
+        } finally {
+          this.requestBtn && (this.requestBtn.disabled = false);
+        }
+      }
+    );
   }
 }

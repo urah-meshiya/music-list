@@ -32,11 +32,32 @@
 #randomDialog #randomDialogInner #copyRandomInfoBtn {
   position: absolute;
   right: 22px;
-  top: 168px;
+  top: 188px;
   width: 2.2rem;
   height: 2.2rem;
   padding: 0;
   border-radius: var(--radius-pill);
+}
+
+#randomDialog #randomDialogInner #copyRandomInfoBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+#randomDialog #randomDialogInner #requestRandomBtn {
+  position: absolute;
+  right: 60px;
+  top: 188px;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  font-size: 0.9rem;
+  border-radius: var(--radius-pill);
+}
+
+#randomDialog #randomDialogInner #requestRandomBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 #randomDialog #randomDialogInner #randomDisplay {

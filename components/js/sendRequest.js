@@ -33,21 +33,13 @@ const getClientId = () => {
 };
 
 export const showRequestModal = (message, config, onRequest) => {
-  const overlay = document.createElement("div");
-  overlay.style.cssText = `
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-  `;
+  const dialog = document.createElement("dialog");
+  dialog.className = "requestDialog";
 
   const modal = document.createElement("div");
   modal.style.cssText = `
-    background: white;
-    border-radius: 12px;
+    background: var(--surface-strong);
+    color: var(--ink);
     padding: 24px;
     width: min(90vw, 420px);
     box-sizing: border-box;
@@ -72,18 +64,21 @@ export const showRequestModal = (message, config, onRequest) => {
     </div>
   `;
 
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
+  dialog.appendChild(modal);
+  document.body.appendChild(dialog);
+  dialog.showModal();
 
   const resultEl = modal.querySelector(".requestModalResult");
   const okBtn = modal.querySelector(".requestOkBtn");
   const cancelBtn = modal.querySelector(".requestCancelBtn");
 
   const close = () => {
-    overlay.remove();
+    dialog.close();
+    dialog.remove();
   };
 
   cancelBtn.addEventListener("click", close);
+  dialog.addEventListener("close", () => dialog.remove());
 
   okBtn.addEventListener("click", async () => {
     cancelBtn.disabled = true;
