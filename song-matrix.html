@@ -34,7 +34,7 @@
     height:100vh;
     overflow:hidden;
   }
-
+ 
   /* ---------- 選択画面 ---------- */
   #selectScreen{
     flex:1;
@@ -125,7 +125,7 @@
     color:var(--ink-soft);
     padding:16px 0;
   }
-
+ 
   /* ---------- メイン画面 ---------- */
   #mainScreen{
     display:none;
@@ -168,7 +168,7 @@
     border:none;
     font-family:inherit;
   }
-
+ 
   .controls{
     margin-top:12px;
     display:flex;
@@ -206,20 +206,20 @@
     font-size:13px;
     color:var(--hanko);
   }
-
+ 
   main{
     flex:1;
     overflow:auto;
     padding:0 28px 28px;
   }
-
+ 
   #loading{
     padding:60px 0;
     text-align:center;
     color:var(--ink-soft);
     font-size:14px;
   }
-
+ 
   table{
     border-collapse:separate;
     border-spacing:0;
@@ -260,8 +260,8 @@
     padding:8px 16px;
     min-width:220px;
     max-width:320px;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    white-space:normal;
+    word-break:break-word;
   }
   tbody th .song-title{
     display:block;
@@ -289,7 +289,7 @@
     text-align:center;
     padding:6px 0;
   }
-
+ 
   .stamp{
     display:inline-block;
     width:24px; height:24px;
@@ -298,17 +298,47 @@
     box-shadow:0 0 0 1px rgba(179,57,44,0.08) inset;
     opacity:.88;
   }
-
+ 
   .empty-state{
     padding:60px 20px;
     text-align:center;
     color:var(--ink-soft);
     font-size:14px;
   }
-
+ 
   ::-webkit-scrollbar{height:10px; width:10px;}
   ::-webkit-scrollbar-thumb{background:var(--line); border-radius:6px;}
   ::-webkit-scrollbar-track{background:transparent;}
+ 
+  /* スマホ幅では曲名列を横方向には固定しない(人の列を見える幅を広くするため) */
+  @media (max-width: 640px){
+    thead th:first-child{
+      left:auto;
+      z-index:3;
+    }
+    thead th{
+      min-width:40px;
+      padding:8px 6px;
+      font-size:12px;
+    }
+    tbody th{
+      position:static;
+      min-width:150px;
+      max-width:190px;
+      padding:6px 10px;
+    }
+    tbody th .song-title{
+      font-size:13px;
+    }
+    td.mark-cell{
+      padding:4px 0;
+    }
+    .stamp{
+      width:16px;
+      height:16px;
+      border-width:2px;
+    }
+  }
 </style>
 </head>
 <body>
