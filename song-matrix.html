@@ -305,6 +305,78 @@
     color:var(--ink-soft);
     font-size:14px;
   }
+
+  /* ---------- Remix/アレンジ紐づけ表示 ---------- */
+  tbody th .song-title-row{
+    display:flex;
+    align-items:center;
+    gap:2px;
+  }
+  .variant-toggle{
+    flex:0 0 auto;
+    width:16px;
+    height:16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    color:var(--indigo-deep);
+    cursor:pointer;
+    user-select:none;
+    transition:transform .15s;
+    transform:rotate(0deg);
+  }
+  .variant-toggle.open{
+    transform:rotate(90deg);
+  }
+  tbody th.has-variants{
+    cursor:pointer;
+  }
+  tbody th .variant-count{
+    color:var(--indigo-deep);
+    font-weight:700;
+  }
+  #bodyRows tr.variant-row th,
+  #bodyRows tr.variant-row td{
+    background:#f1ecda !important;
+  }
+  #bodyRows tr.variant-row:hover th,
+  #bodyRows tr.variant-row:hover td{
+    background:#e9e2c8 !important;
+  }
+  tr.variant-row th{
+    padding-left:34px;
+  }
+  tr.variant-row .song-title{
+    font-size:12.5px;
+    font-weight:500;
+    color:var(--ink-soft);
+  }
+  tr.variant-row .variant-label{
+    display:inline-block;
+    margin-left:7px;
+    padding:1px 8px;
+    border-radius:999px;
+    background:var(--indigo);
+    color:#fff;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.02em;
+    vertical-align:1px;
+  }
+  tr.variant-row td.mark-cell{
+    padding:4px 0;
+  }
+  tr.variant-row .stamp{
+    width:18px; height:18px;
+    border-width:2px;
+    opacity:.8;
+  }
+  @media (max-width: 640px){
+    tr.variant-row th{
+      padding-left:22px;
+    }
+  }
  
   ::-webkit-scrollbar{height:10px; width:10px;}
   ::-webkit-scrollbar-thumb{background:var(--line); border-radius:6px;}
@@ -506,6 +578,83 @@ class SongMerger {
     return false;
   }
 
+  /* 曲名中に Remix / アレンジ 等の記載があるかを検出し、
+     あれば { base: 原曲名らしき部分, label: 表記されていたラベル } を返す。
+     なければ null。
+     検知したい単語を増やしたい場合は VARIANT_KEYWORDS に追加するだけでOK。 */
+  static get VARIANT_KEYWORDS() {
+    return [
+      'rearranged', 'rearrange', 'arranged', 'arrange',
+      'remixed', 'remix',
+      'acoustic', 'unplugged',
+      'version', 'ver',
+      'リアレンジ', 'アレンジ', 'リミックス',
+      'アコースティック', 'アンプラグド', 'バージョン',
+    ];
+  }
+
+  detectVariant(title) {
+    if (!title) return null;
+    // 英数字のみのキーワードは単語境界(\b)を付けて誤爆を防ぐ(例: 'ver'が'cover'や'forever'の
+    // 一部として誤検知されないように)。日本語キーワードは\bが機能しないためそのまま結合する。
+    const escape = k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const asciiKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => /^[A-Za-z]+$/.test(k));
+    const jpKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => !/^[A-Za-z]+$/.test(k));
+    const parts = [
+      ...asciiKeywords.map(k => `\\b${escape(k)}\\b`),
+      ...jpKeywords.map(escape),
+    ];
+    const KEYWORD = new RegExp(`(${parts.join('|')})`, 'i');
+
+    // 1) 括弧内に記載されているパターン: 「曲名 (〇〇 Remix)」「曲名【アレンジ】」「曲名＜和風アレンジ＞」など
+    const bracketRe = /[\(\[【（＜〈]([^\(\)\[\]【】（）＜＞〈〉]*)[\)\]】）＞〉]/g;
+    let m;
+    while ((m = bracketRe.exec(title)) !== null) {
+      if (KEYWORD.test(m[1])) {
+        const label = m[1].trim();
+        const base = (title.slice(0, m.index) + title.slice(m.index + m[0].length)).trim();
+        if (base) return { base, label };
+      }
+    }
+
+    // 2) 括弧なしで末尾に英字ラベルとして記載されているパターン:
+    //    「曲名 Electro Swing Remix」「曲名 -acoustic ver.-」など、
+    //    キーワードを含む末尾の英数字の連なりをまるごとラベルとして扱う
+    const trimmedTail = title.replace(/[\s\-‐–—―]+$/, '');
+    const asciiTailRe = /[\s\-‐–—―]*([A-Za-z0-9][A-Za-z0-9 .,'&+/]*)$/;
+    const am = trimmedTail.match(asciiTailRe);
+    if (am && KEYWORD.test(am[1])) {
+      const label = am[1].trim().replace(/\s+/g, ' ');
+      const base = trimmedTail.slice(0, am.index).replace(/[\s\-‐–—―]+$/, '').trim();
+      if (base) return { base, label };
+    }
+
+    // 3) 括弧なしで末尾に日本語ラベルのみが記載されているパターン
+    const jpOnlyKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => /[ぁ-んァ-ヶ一-龠]/.test(k));
+    const jpTailRe = new RegExp(`[\\s\\-‐–—―]+(${jpOnlyKeywords.join('|')})[\\s\\-‐–—―]*$`);
+    const jm = title.match(jpTailRe);
+    if (jm && jm.index > 0) {
+      const base = title.slice(0, jm.index).trim();
+      if (base) return { base, label: jm[1] };
+    }
+
+    return null;
+  }
+
+  /* Remix/アレンジのbaseタイトルと原曲候補のnormTitleが「同じ曲」と言えるかどうかを判定。
+     アーティスト名の部分一致判定(artistMatches)は文字列长が大きく異なる場合に誤爆するため、
+     曲名の同一判定には流用せず、長さが近い場合の軽微な表記ゆれのみ許容する。 */
+  titleBaseMatches(normPrimary, normBase) {
+    if (!normPrimary || !normBase) return false;
+    if (normPrimary === normBase) return true;
+    const minLen = Math.min(normPrimary.length, normBase.length);
+    const maxLen = Math.max(normPrimary.length, normBase.length);
+    if (maxLen - minLen > 2) return false; // 長さが大きく違う場合は別の曲とみなす
+    if (minLen < 6) return false; // 短い曲名は誤爆しやすいので完全一致以外は認めない
+    const dist = this.levenshtein(normPrimary, normBase);
+    return dist <= (minLen >= 10 ? 2 : 1);
+  }
+
   levenshtein(a, b) {
     const m = a.length, n = b.length;
     if (m === 0) return n;
@@ -576,7 +725,7 @@ class SongMerger {
       clusters.get(root).push(e);
     });
 
-    const songs = Array.from(clusters.values()).map(group => {
+    const clusteredSongs = Array.from(clusters.values()).map(group => {
       const title = group[0].title;
       let displayArtist = group[0].artist;
       group.forEach(e => {
@@ -585,15 +734,48 @@ class SongMerger {
         }
       });
       const singers = new Set(group.map(e => e.singer));
-      return { title, artist: displayArtist, singers };
+      return { title, artist: displayArtist, singers, normTitle: group[0].normTitle, variants: [] };
     });
 
-    songs.sort((a, b) => {
+    // Step5: Remix/アレンジ表記の曲を検出し、原曲(表記なしの曲)へ紐づける
+    clusteredSongs.forEach(song => {
+      song.variantInfo = this.detectVariant(song.title);
+    });
+
+    const primaries = clusteredSongs.filter(s => !s.variantInfo);
+    const songs = [];
+
+    clusteredSongs.forEach(song => {
+      if (!song.variantInfo) {
+        songs.push(song);
+        return;
+      }
+      const normBase = this.normalize(song.variantInfo.base);
+      let parent = primaries.find(p => p !== song && p.normTitle === normBase);
+      if (!parent) {
+        parent = primaries.find(p => p !== song && this.titleBaseMatches(p.normTitle, normBase));
+      }
+      song.label = song.variantInfo.label;
+      if (parent) {
+        song.parentTitle = parent.title;
+        parent.variants.push(song);
+      } else {
+        // 紐づけ先が見つからない場合は単独の曲として一覧に残す
+        songs.push(song);
+      }
+    });
+
+    const sortSongs = (list) => list.sort((a, b) => {
       const countCmp = b.singers.size - a.singers.size;
       if (countCmp !== 0) return countCmp;
       const artistCmp = (a.artist || '').localeCompare(b.artist || '', 'ja');
       if (artistCmp !== 0) return artistCmp;
       return (a.title || '').localeCompare(b.title || '', 'ja');
+    });
+
+    sortSongs(songs);
+    songs.forEach(song => {
+      if (song.variants.length > 0) sortSongs(song.variants);
     });
 
     return { songs, personNames };
@@ -636,7 +818,12 @@ class TableView {
     if (!this.filterText) return true;
     const n = s => (s || '').normalize('NFKC').toLowerCase();
     const q = n(this.filterText);
-    return n(song.title).includes(q) || n(song.artist).includes(q);
+    const selfMatch = n(song.title).includes(q) || n(song.artist).includes(q);
+    if (selfMatch) return true;
+    if (song.variants && song.variants.length > 0) {
+      return song.variants.some(v => n(v.title).includes(q) || n(v.artist).includes(q));
+    }
+    return false;
   }
 
   renderBody() {
@@ -652,24 +839,13 @@ class TableView {
     this.tableEl.style.display = '';
     this.emptyStateEl.style.display = 'none';
 
-    visible.forEach((song, rowIdx) => {
-      const tr = document.createElement('tr');
+    const isFiltering = !!this.filterText;
 
-      const th = document.createElement('th');
-      const titleEl = document.createElement('span');
-      titleEl.className = 'song-title';
-      titleEl.textContent = song.title;
-      const metaEl = document.createElement('span');
-      metaEl.className = 'song-meta';
-      metaEl.innerHTML = `${song.artist ? song.artist + ' / ' : ''}<span class="count">${song.singers.size}人</span>`;
-      th.appendChild(titleEl);
-      th.appendChild(metaEl);
-      tr.appendChild(th);
-
+    const buildStampCells = (tr, entrySong, rowIdx) => {
       personNames.forEach((name, colIdx) => {
         const td = document.createElement('td');
         td.className = 'mark-cell';
-        if (song.singers.has(name)) {
+        if (entrySong.singers.has(name)) {
           const stamp = document.createElement('span');
           stamp.className = 'stamp';
           const wobble = ((rowIdx * 7 + colIdx * 13) % 9) - 4;
@@ -678,8 +854,87 @@ class TableView {
         }
         tr.appendChild(td);
       });
+    };
 
+    visible.forEach((song, rowIdx) => {
+      const hasVariants = song.variants && song.variants.length > 0;
+      const tr = document.createElement('tr');
+      tr.className = 'song-row';
+
+      const th = document.createElement('th');
+      if (hasVariants) th.classList.add('has-variants');
+
+      const titleRow = document.createElement('span');
+      titleRow.className = 'song-title-row';
+
+      let toggleEl = null;
+      if (hasVariants) {
+        toggleEl = document.createElement('span');
+        toggleEl.className = 'variant-toggle';
+        toggleEl.textContent = '▶';
+        toggleEl.setAttribute('aria-expanded', isFiltering ? 'true' : 'false');
+        if (isFiltering) toggleEl.classList.add('open');
+        titleRow.appendChild(toggleEl);
+      }
+
+      const titleEl = document.createElement('span');
+      titleEl.className = 'song-title';
+      titleEl.textContent = song.title;
+      titleRow.appendChild(titleEl);
+      th.appendChild(titleRow);
+
+      const metaEl = document.createElement('span');
+      metaEl.className = 'song-meta';
+      const variantNote = hasVariants
+        ? ` <span class="variant-count">・関連${song.variants.length}件</span>`
+        : '';
+      metaEl.innerHTML = `${song.artist ? song.artist + ' / ' : ''}<span class="count">${song.singers.size}人</span>${variantNote}`;
+      th.appendChild(metaEl);
+      tr.appendChild(th);
+
+      buildStampCells(tr, song, rowIdx);
       this.bodyRowsEl.appendChild(tr);
+
+      if (hasVariants) {
+        const variantRows = [];
+        song.variants.forEach((variant, vIdx) => {
+          const vtr = document.createElement('tr');
+          vtr.className = 'variant-row';
+          vtr.style.display = isFiltering ? '' : 'none';
+
+          const vth = document.createElement('th');
+          const vTitleEl = document.createElement('span');
+          vTitleEl.className = 'song-title';
+          vTitleEl.textContent = variant.title;
+          const vLabelEl = document.createElement('span');
+          vLabelEl.className = 'variant-label';
+          vLabelEl.textContent = variant.label || 'Remix/アレンジ';
+          vth.appendChild(vTitleEl);
+          vth.appendChild(vLabelEl);
+
+          const vMetaEl = document.createElement('span');
+          vMetaEl.className = 'song-meta';
+          vMetaEl.innerHTML = `${variant.artist ? variant.artist + ' / ' : ''}<span class="count">${variant.singers.size}人</span>`;
+          vth.appendChild(document.createElement('br'));
+          vth.appendChild(vMetaEl);
+
+          vtr.appendChild(vth);
+          buildStampCells(vtr, variant, rowIdx * 100 + vIdx + 1);
+          this.bodyRowsEl.appendChild(vtr);
+          variantRows.push(vtr);
+        });
+
+        const toggle = () => {
+          const open = toggleEl.classList.toggle('open');
+          toggleEl.setAttribute('aria-expanded', String(open));
+          variantRows.forEach(r => { r.style.display = open ? '' : 'none'; });
+        };
+        toggleEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggle();
+        });
+        th.addEventListener('click', toggle);
+      }
     });
   }
 
