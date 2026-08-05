@@ -588,54 +588,144 @@ class SongMerger {
       'remixed', 'remix',
       'acoustic', 'unplugged',
       'version', 'ver',
+      'remake', 'reloaded', 'rebuild', 'rework', 'recall',
+      'anniversary', 'aniversary',
+      'cover', 'self cover',
+      'new words', 'Re Alive',
       'リアレンジ', 'アレンジ', 'リミックス',
-      'アコースティック', 'アンプラグド', 'バージョン',
+      'アコースティック', 'アンプラグド',
+      'バージョン', 'リメイク', '新録', '別ver',
+      'カバー', 'セルフカバー',
     ];
+  }
+
+  /* Remixやアレンジの前によく付く「ジャンル・楽器・視点」などの修飾語。
+     キーワードの直前にこれらの単語があれば、ラベルの一部としてまとめて扱う。
+     (例: 「〇〇 ボサノヴァ アレンジ」→ラベルは「ボサノヴァ アレンジ」) */
+  static get DESCRIPTOR_WORDS() {
+    return [
+      'ボサノヴァ', 'Bossa Nova', 'Bossa', 'Nova',
+      'Latin', 'Jazz', 'Electro', 'Swing',
+      'オルゴール', 'アコギ', 'ピアノ', 'Piano',
+      '和風', '男性目線', '女性目線',
+    ];
+  }
+
+  /* どうしても一般的なパターンに当てはまらない曲名は、ここに曲名をそのまま追加すれば
+     直接 base/label を指定できる。追加する際は title を完全一致(スプレッドシート上の
+     表記そのまま)で書くこと。 */
+  static get EXPLICIT_VARIANTS() {
+    return [
+      { title: 'Ur-Style -arbitrary style-', base: 'Ur-Style', label: 'arbitrary style' },
+      { title: 'ワンダーラスト (2019: A Self Odyssey)', base: 'ワンダーラスト', label: '2019: A Self Odyssey' },
+      { title: '深海少女 -deep sea girl-', base: '深海少女', label: 'deep sea girl' },
+      { title: '天樂 -双響-', base: '天樂', label: '双響' },
+    ];
+  }
+
+  /* base の末尾がDESCRIPTOR_WORDSのいずれかで終わっていれば、それをbaseから取り除いて
+     labelの先頭に移す。これを繰り返すことで「〇〇 ジャンル名 Remix」のような
+     複数語ラベルにも対応する。 */
+  extendLabelWithDescriptors(base, label) {
+    const escape = k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    let changed = true;
+    while (changed && base) {
+      changed = false;
+      for (const word of SongMerger.DESCRIPTOR_WORDS) {
+        const re = new RegExp(`(?:^|[\\s　])${escape(word)}$`);
+        if (re.test(base)) {
+          base = base.replace(re, '').trim();
+          label = label ? `${word} ${label}` : word;
+          changed = true;
+          break;
+        }
+      }
+    }
+    return { base, label };
   }
 
   detectVariant(title) {
     if (!title) return null;
+
+    // 0) パターン化しづらい特殊な曲名は直指定リストを優先的に見る
+    const override = SongMerger.EXPLICIT_VARIANTS.find(e => e.title === title);
+    if (override) return { base: override.base, label: override.label };
+
     // 英数字のみのキーワードは単語境界(\b)を付けて誤爆を防ぐ(例: 'ver'が'cover'や'forever'の
-    // 一部として誤検知されないように)。日本語キーワードは\bが機能しないためそのまま結合する。
+    // 一部として誤検知されないように)。日本語(や空白を含む)キーワードは\bが機能しない/
+    // 不要なためそのまま結合する。
     const escape = k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const asciiKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => /^[A-Za-z]+$/.test(k));
-    const jpKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => !/^[A-Za-z]+$/.test(k));
+    const otherKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => !/^[A-Za-z]+$/.test(k));
     const parts = [
       ...asciiKeywords.map(k => `\\b${escape(k)}\\b`),
-      ...jpKeywords.map(escape),
+      ...otherKeywords.map(escape),
     ];
     const KEYWORD = new RegExp(`(${parts.join('|')})`, 'i');
 
-    // 1) 括弧内に記載されているパターン: 「曲名 (〇〇 Remix)」「曲名【アレンジ】」「曲名＜和風アレンジ＞」など
-    const bracketRe = /[\(\[【（＜〈]([^\(\)\[\]【】（）＜＞〈〉]*)[\)\]】）＞〉]/g;
+    const finalize = (base, label) => {
+      if (!base) return null;
+      return this.extendLabelWithDescriptors(base, label);
+    };
+
+    // 1) 括弧内に記載されているパターン: 「曲名 (〇〇 Remix)」「曲名【アレンジ】」
+    //    「曲名＜和風アレンジ＞」「曲名＜男性目線ver.>」(全角/半角の混在含む)など
+    const bracketRe = /[\(\[【（＜〈<]([^\(\)\[\]【】（）＜＞〈〉<>]*)[\)\]】）＞〉>]/g;
     let m;
     while ((m = bracketRe.exec(title)) !== null) {
       if (KEYWORD.test(m[1])) {
         const label = m[1].trim();
         const base = (title.slice(0, m.index) + title.slice(m.index + m[0].length)).trim();
-        if (base) return { base, label };
+        const result = finalize(base, label);
+        if (result) return result;
       }
     }
 
-    // 2) 括弧なしで末尾に英字ラベルとして記載されているパターン:
-    //    「曲名 Electro Swing Remix」「曲名 -acoustic ver.-」など、
-    //    キーワードを含む末尾の英数字の連なりをまるごとラベルとして扱う
+    // 2) 末尾がダッシュ(半角/全角の各種ダッシュ、半角カナ長音符｢ｰ｣含む)で
+    //    区切られているパターン: 「曲名-オルゴール.ver-」「曲名 ｰ Latin Jazz Arrange」など。
+    //    日本語混じりでもダッシュに挟まれた範囲をまるごとラベル候補にする。
+    const DASH = '[-‐–—―ｰ]';
+    const dashTailRe = new RegExp(`${DASH}\\s*([^-‐–—―ｰ]+?)\\s*${DASH}?\\s*$`);
+    const dtm = title.match(dashTailRe);
+    if (dtm) {
+      const label = dtm[1].trim();
+      if (KEYWORD.test(label)) {
+        const base = title.slice(0, dtm.index).trim();
+        const result = finalize(base, label);
+        if (result) return result;
+      }
+    }
+
+    // 3) 括弧・ダッシュなしで末尾に英字ラベルとして記載されているパターン:
+    //    「曲名 Electro Swing Remix」など。ただし末尾の英字が直前の日本語に
+    //    スペース無しでくっついている場合(例:「アコギアレンジCover」)は、
+    //    ここでは判定せず4)にまとめて任せる。
     const trimmedTail = title.replace(/[\s\-‐–—―]+$/, '');
     const asciiTailRe = /[\s\-‐–—―]*([A-Za-z0-9][A-Za-z0-9 .,'&+/]*)$/;
     const am = trimmedTail.match(asciiTailRe);
     if (am && KEYWORD.test(am[1])) {
-      const label = am[1].trim().replace(/\s+/g, ' ');
-      const base = trimmedTail.slice(0, am.index).replace(/[\s\-‐–—―]+$/, '').trim();
-      if (base) return { base, label };
+      const groupStart = am.index + (am[0].length - am[1].length);
+      const precedingChar = groupStart > 0 ? trimmedTail[groupStart - 1] : '';
+      const gluedToPrecedingWord = precedingChar && !/[\s　\-‐–—―]/.test(precedingChar);
+      if (!gluedToPrecedingWord) {
+        const label = am[1].trim().replace(/\s+/g, ' ');
+        const base = trimmedTail.slice(0, am.index).replace(/[\s\-‐–—―]+$/, '').trim();
+        const result = finalize(base, label);
+        if (result) return result;
+      }
     }
 
-    // 3) 括弧なしで末尾に日本語ラベルのみが記載されているパターン
-    const jpOnlyKeywords = SongMerger.VARIANT_KEYWORDS.filter(k => /[ぁ-んァ-ヶ一-龠]/.test(k));
-    const jpTailRe = new RegExp(`[\\s\\-‐–—―]+(${jpOnlyKeywords.join('|')})[\\s\\-‐–—―]*$`);
-    const jm = title.match(jpTailRe);
-    if (jm && jm.index > 0) {
-      const base = title.slice(0, jm.index).trim();
-      if (base) return { base, label: jm[1] };
+    // 4) 括弧・ダッシュなしで、末尾の「空白区切りの最後の塊」がキーワードを含むパターン。
+    //    間にスペースが無く日本語と英字がくっついている場合(例:「アコギアレンジCover」
+    //    「激エロRemix」)も、塊ごとまとめてラベルとして扱う。
+    const lastTokenMatch = trimmedTail.match(/[\s　]+(\S+)$/);
+    if (lastTokenMatch) {
+      const token = lastTokenMatch[1];
+      if (KEYWORD.test(token)) {
+        const base = trimmedTail.slice(0, lastTokenMatch.index).trim();
+        const result = finalize(base, token);
+        if (result) return result;
+      }
     }
 
     return null;
