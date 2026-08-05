@@ -34,6 +34,10 @@ export const CONFIG = {
   /** リクエストボタン表示列 */
   requestButtonColumn: "L",
 
+  /** リクエスト許容間隔 */
+  rateLimitWindow: 10,
+  rateLimitMax: 2,
+
   /** オススメ列用tooltipメッセージ */
   theadDescription: "＜オススメ度＞\n×＜▲＜(空欄)＜○＜◎＜★",
 };
