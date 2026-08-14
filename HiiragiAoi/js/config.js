@@ -10,7 +10,7 @@ export const CONFIG = {
   primaryCol: "D",
   secondaryCol: "E",
   /** 列番号(ソート目的も含む) */
-  columnIndex: { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8 },
+  columnIndex: { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J:9, K:10, L:11, M:12, N:13 },
 
   /************ カスタマイズ項目 ************/
   /** ページタイトル */
@@ -32,8 +32,8 @@ export const CONFIG = {
   /** テーブル拡大率 */
   tableHeightRatio: 0.75,
   /** コピーボタンの対象列 */
-  copyButtonColumn: "L",
+  copyButtonColumn: "M",
   /** リクエストボタン表示列 */
-  requestButtonColumn: "M"
+  requestButtonColumn: "N"
 
 };
