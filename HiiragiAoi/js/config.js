@@ -6,7 +6,7 @@ export const CONFIG = {
   /** ヘッダー行 */
   headerRowIndex: 4,
   /** 表示対象列 */
-  displayColumns: ["D", "E", "F", "L", "M"],
+  displayColumns: ["D", "E", "F", "M", "N"],
   primaryCol: "D",
   secondaryCol: "E",
   /** 列番号(ソート目的も含む) */
