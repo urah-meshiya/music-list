@@ -147,7 +147,9 @@ tr.grayout {
     }
 
     &:nth-child(3) {
-      min-width: 30px;
+      width: 16px !important;
+      min-width: 16px !important;
+      max-width: 16px ;
       letter-spacing: -1.5px;
     }
   }
