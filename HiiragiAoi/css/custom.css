@@ -21,7 +21,6 @@ body {
 
 p {
   font-family: "DotGothic16", sans-serif;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 th, td {
@@ -125,6 +124,10 @@ tr.grayout {
   .requestBtn {
     display: none;
   }
+}
+
+#counter, #counterInner {
+  padding: 0.2rem !important;
 }
 
 /* Mobile */

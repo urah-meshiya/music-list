@@ -203,9 +203,9 @@ export class App {
     </button>
 
     <!-- モーダル -->
-    <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-overlay" id="infoModalOverlay">
       <div class="modal">
-        <button class="close-btn" id="closeModal">×</button>
+        <button class="close-btn" id="closeInfoModal">×</button>
         <h3>Information</h3>
         <div>
           歌リクくん (ver.${common.version}) <br>
@@ -217,8 +217,8 @@ export class App {
     );
 
     const openBtn = document.getElementById("openInfoModal");
-    const closeBtn = document.getElementById("closeModal");
-    const overlay = document.getElementById("modalOverlay");
+    const closeBtn = document.getElementById("closeInfoModal");
+    const overlay = document.getElementById("infoModalOverlay");
 
     openBtn.addEventListener("click", () => {
       overlay.classList.add("open");

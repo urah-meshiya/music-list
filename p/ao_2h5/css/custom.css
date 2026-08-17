@@ -112,6 +112,15 @@ td a, td a:visited, td a:hover, td a:active {
 #closeDialogBtn, #closeModal {
   background-color: #aaa !important;  
 }
+
+#title::before {
+  color: #aaa;
+}
+
+#counter, #counterInner {
+  padding: 0.2rem !important;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   body {

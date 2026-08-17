@@ -36,5 +36,9 @@ export const CONFIG = {
   /** ランダムの制御 */
   rp_switch: true,
   /** リクエストボタン表示列 */
-  requestButtonColumn: "L"
+  requestButtonColumn: "L",
+
+  counterMegPre: "現在",
+  counterMsgPro: "曲"
+
 };

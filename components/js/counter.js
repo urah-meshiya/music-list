@@ -13,7 +13,7 @@ export class Counter {
 
   setData(data) {
     //this.data = data;
-    this.count.innerHTML = `${data.length}曲 表示中`;
+    this.count.innerHTML = `${this.CONFIG.counterMegPre ?? ""}${data.length}${this.CONFIG.counterMsgPro ?? "曲 表示中"}`;
   }
 
 }

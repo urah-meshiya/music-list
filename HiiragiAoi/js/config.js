@@ -34,6 +34,9 @@ export const CONFIG = {
   /** コピーボタンの対象列 */
   copyButtonColumn: "M",
   /** リクエストボタン表示列 */
-  requestButtonColumn: "N"
+  requestButtonColumn: "N",
+
+  counterMegPre: "現在",
+  counterMsgPro: "曲"
 
 };
